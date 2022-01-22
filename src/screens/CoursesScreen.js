@@ -6,17 +6,7 @@ import Header from "../components/header/Header";
 import TabNavbar from "../components/tab-navbar/TabNavbar";
 import {obTheme} from "../components/utils/colors";
 
-const CoursesScreen = ({route, navigation}) => {
-  console.log("route", route, route.params);
-
-  if (!!route.params) {
-    //fetch category product
-    console.log("Category");
-  } else {
-    //fetch all products
-    console.log("Fetch all");
-  }
-
+const CoursesScreen = ({navigation}) => {
   return (
     <View style={styles.parentContainer}>
       <View style={styles.headerWrapper}>
@@ -50,6 +40,9 @@ const styles = StyleSheet.create({
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,
+  },
+  tabNavCont: {
+    height: 56,
   },
 });
 

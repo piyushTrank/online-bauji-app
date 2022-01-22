@@ -77,7 +77,12 @@ const ListItem = props => {
         <View style={styles.listItemContent}>
           <TouchableWithoutFeedback
             onPress={() => props.handleItemClick(props.item.id)}>
-            <Text style={styles.listItemTxt}>{decode(props.item.name)}</Text>
+            <Text
+              style={styles.listItemTxt}
+              ellipsizeMode="tail"
+              numberOfLines={2}>
+              {decode(props.item.name)}
+            </Text>
           </TouchableWithoutFeedback>
           <StarSvg
             ratingCount={Math.floor(parseFloat(props.item.average_rating))}
@@ -209,13 +214,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: obTheme.white,
     paddingHorizontal: 16,
-    paddingVertical: 30,
+    paddingTop: 30,
     flexGrow: 1,
-    height: height - 56 - 50,
+    // height: height - 56 - 50,
     borderTopStartRadius: 30,
     borderTopEndRadius: 30,
   },
-  sliderContainer: {},
   categoryHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -242,6 +246,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     width: width / 2 - 30,
     elevation: 5,
+    minHeight: 90,
   },
   listItemCont: {
     width: width / 2 - 10,
@@ -255,6 +260,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 15,
     marginVertical: 8,
+    fontWeight: "600",
   },
   priceWrap: {
     marginTop: 8,

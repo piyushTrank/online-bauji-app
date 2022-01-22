@@ -25,7 +25,7 @@ const ListItem = props => {
     if (props.item.type === "variable") {
       return (
         <View style={{...styles.variablePriceWrap, ...styles.priceWrap}}>
-          <Text style={styles.variablePriceLabel}>Starting from </Text>
+          <Text style={styles.variablePriceLabel}>Starting </Text>
           <Text style={{...styles.variablePrice, ...styles.coursePrice}}>
             ₹ {props.item.price}
           </Text>
@@ -56,7 +56,11 @@ const ListItem = props => {
   const loadCategory = () => {
     if (props.item.categories.length > 0) {
       return props.item.categories.map(el => (
-        <Text style={styles.categoryBtn} key={el.id}>
+        <Text
+          style={styles.categoryBtn}
+          key={el.id}
+          ellipsizeMode="tail"
+          numberOfLines={1}>
           {decode(el.name)}
         </Text>
       ));
@@ -88,7 +92,12 @@ const ListItem = props => {
             ) : null}
           </View>
           <View style={styles.listItemContent}>
-            <Text style={styles.listItemTxt}>{decode(props.item.name)}</Text>
+            <Text
+              style={styles.listItemTxt}
+              ellipsizeMode="tail"
+              numberOfLines={2}>
+              {decode(props.item.name)}
+            </Text>
             <StarSvg
               ratingCount={Math.floor(parseFloat(props.item.average_rating))}
             />
@@ -226,8 +235,8 @@ const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
     backgroundColor: obTheme.white,
-    paddingHorizontal: 16,
-    paddingVertical: 30,
+    paddingHorizontal: 11,
+    paddingTop: 30,
     borderTopStartRadius: 30,
     borderTopEndRadius: 30,
   },
@@ -237,10 +246,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categoryHeaderTxt: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
-    lineHeight: 14,
+    lineHeight: 16,
     color: obTheme.text,
+    paddingHorizontal: 5,
+    marginBottom: 16,
     textTransform: "uppercase",
   },
   listItemImg: {
@@ -254,6 +265,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     flex: 1,
     width: width / 2 - 25,
+    minHeight: 125,
   },
   listItemCont: {
     width: width / 2,
@@ -261,7 +273,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingHorizontal: 5,
     borderRadius: 15,
-    // marginBottom: 36,
+    marginBottom: 16,
   },
   listItemTxt: {
     color: obTheme.text,
@@ -269,14 +281,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 15,
     marginVertical: 8,
+    fontWeight: "600",
   },
   priceWrap: {
     marginTop: 8,
+  },
+  variablePriceWrap: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   variablePriceLabel: {
     fontSize: 10,
     color: obTheme.text,
     textTransform: "uppercase",
+    paddingEnd: 5,
   },
   coursePrice: {
     fontSize: 16,

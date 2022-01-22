@@ -1,18 +1,35 @@
 import React from "react";
 import {FlatList, StyleSheet, View, Text} from "react-native";
+import {useDispatch} from "react-redux";
+import {changeTopic} from "../../store/actions/topic.actions";
 import Accordian from "../accordian/Accordian";
 import {obTheme} from "../utils/colors";
 import TopicItem from "./TopicItem";
 
-const TopicList = ({topicList}) => {
-  const renderTopics = arr => {
-    return arr.map(el => <TopicItem data={el} key={el.id} />);
+const TopicList = ({topicList, isPreview}) => {
+  const dispatch = useDispatch();
+
+  const handlePreview = topicInfo => {
+    console.log("topicInfo", topicInfo);
+    dispatch(changeTopic(topicInfo));
+  };
+
+  const renderTopics = (arr, sectionId) => {
+    return arr.map(el => (
+      <TopicItem
+        data={el}
+        key={el.id}
+        isPreview={isPreview && el.topicPreview !== null}
+        handlePreview={handlePreview}
+        sectionId={sectionId}
+      />
+    ));
   };
 
   const renderList = arr => {
     return arr.map(el => (
       <Accordian key={el.sectionId} title={el.sectionTitle} data="Test data">
-        {renderTopics(el.sectionTopics)}
+        {renderTopics(el.sectionTopics, el.sectionId)}
       </Accordian>
     ));
   };
@@ -42,5 +59,10 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
 });
+
+TopicList.defaultProps = {
+  isPreview: false,
+  topicList: [],
+};
 
 export default TopicList;

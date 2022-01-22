@@ -1,9 +1,21 @@
 import React from "react";
-import {View, StyleSheet, Text} from "react-native";
+import {View, StyleSheet, Text, TouchableOpacity} from "react-native";
 import Icon from "../IconNB";
 import {obTheme} from "../utils/colors";
 
-const TopicItem = ({data}) => {
+const TopicItem = ({data, isPreview, handlePreview, sectionId}) => {
+  const onPreviewClick = () => {
+    const dataToSend = {
+      title: data.topicTitle,
+      data: data.topicPreview.previewData,
+      type: data.topicType,
+      id: data.id,
+      sectionId,
+    };
+    console.log("Change", dataToSend);
+    handlePreview(dataToSend);
+  };
+
   return (
     <View style={styles.parentTopic}>
       <Icon
@@ -19,6 +31,18 @@ const TopicItem = ({data}) => {
           <Text style={styles.topicType}>{data.topicDuration}</Text>
         </View>
       </View>
+      {isPreview ? (
+        <TouchableOpacity onPress={onPreviewClick}>
+          <View style={styles.playVideoWrap}>
+            <Icon
+              type="MaterialIcons"
+              name="play-circle-outline"
+              color={obTheme.secondary}
+              size={24}
+            />
+          </View>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
@@ -46,6 +70,14 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     fontSize: 12,
   },
+  playVideoWrap: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
 });
+
+TopicItem.defaultProps = {
+  handlePreview: () => {},
+};
 
 export default TopicItem;

@@ -81,7 +81,12 @@ const ListItem = props => {
             ) : null}
           </View>
           <View style={styles.listItemContent}>
-            <Text style={styles.listItemTxt}>{decode(props.item.name)}</Text>
+            <Text
+              style={styles.listItemTxt}
+              ellipsizeMode="tail"
+              numberOfLines={2}>
+              {decode(props.item.name)}
+            </Text>
             <StarSvg
               ratingCount={Math.floor(parseFloat(props.item.average_rating))}
             />
@@ -200,8 +205,9 @@ const styles = StyleSheet.create({
     backgroundColor: obTheme.white,
     paddingHorizontal: 8,
     paddingBottom: 8,
-
+    minHeight: 125,
     elevation: 5,
+    marginBottom: 24,
   },
   listItemCont: {
     width: width / 2,
@@ -215,6 +221,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 15,
     marginVertical: 8,
+    fontWeight: "600",
   },
   priceWrap: {
     marginTop: 8,

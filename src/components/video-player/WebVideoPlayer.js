@@ -3,10 +3,7 @@ import {ActivityIndicator, Text, View} from "react-native";
 import {WebView} from "react-native-webview";
 
 const WebVideoPlayer = ({videoUrl}) => {
-  const runFirst = `
-      setTimeout(function() { window.alert('hi') }, 2000);
-      true; // note: this is required, or you'll sometimes get silent failures
-    `;
+  const runFirst = "alert('Working);";
 
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -21,6 +18,22 @@ const WebVideoPlayer = ({videoUrl}) => {
       <WebView
         onLoad={() => setIsLoading(false)}
         javaScriptEnabled={true}
+        injectedJavaScript={`
+        (function() {
+          
+          setTimeout(() => {
+            
+            const video = document.getElementsByTagName("video")[0];
+            video.addEventListener('webkitbeginfullscreen', (event) => {
+              window.ReactNativeWebView.postMessage("Full Screen");
+            })
+            video.addEventListener('webkitendfullscreen', (event) => {
+              window.ReactNativeWebView.postMessage("End Full Screen");
+            })
+          }, 3000)
+        })();
+        true; // note: this is required, or you'll sometimes get silent failures
+        `}
         // scrollEnabled={true}
         allowsFullscreenVideo={true}
         allowsInlineMediaPlayback={true}
@@ -28,7 +41,6 @@ const WebVideoPlayer = ({videoUrl}) => {
           uri: `https://www.onlinebauji.com/app-video?url=${videoUrl}`,
         }}
         style={{flex: 1}}
-        // injectedJavaScript={runFirst}
         sharedCookiesEnabled={true}
         useWebKit
         mediaPlaybackRequiresUserAction={false}
@@ -40,6 +52,7 @@ const WebVideoPlayer = ({videoUrl}) => {
           console.log("WebView error: ", nativeEvent);
         }}
         thirdPartyCookiesEnabled={true}
+        onMessage={m => console.log("alert", m.nativeEvent.data)}
       />
       <View style={{position: "absolute"}}>
         {isLoading ? <ActivityIndicator size="large" /> : null}

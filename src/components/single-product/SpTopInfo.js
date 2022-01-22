@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   courseName: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "700",
     lineHeight: 18,
     marginBottom: 8,

@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     textAlign: "center",
     paddingHorizontal: 24,
+    height: 56,
   },
   tbItem: {
     opacity: 0.6,

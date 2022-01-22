@@ -112,6 +112,7 @@ const SearchCourseScreen = ({navigation}) => {
                 onChangeText={handleInputChange}
                 placeholder="Search Course"
                 placeholderTextColor="#999"
+                autoFocus={true}
                 // value={text}
               />
             </View>

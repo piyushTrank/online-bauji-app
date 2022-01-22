@@ -73,18 +73,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: obTheme.secondary,
   },
+  headerWrapper: {
+    flex: 1,
+  },
   scrollWrap: {
     paddingVertical: 30,
   },
   scrollContainer: {
     borderTopStartRadius: 30,
     borderTopEndRadius: 30,
-    flex: 1,
+    flex: 2,
     backgroundColor: obTheme.white,
     marginTop: 50,
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,
+  },
+  tabNavCont: {
+    height: 56,
   },
 });
 

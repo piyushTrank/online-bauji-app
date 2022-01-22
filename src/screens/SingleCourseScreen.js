@@ -133,6 +133,8 @@ const SingleCourseScreen = ({route, navigation}) => {
     });
   };
 
+  console.log("singleProduct.topicsData", singleProduct.topicsData);
+
   return (
     <SafeAreaView style={styles.parentContainer}>
       <View style={styles.headerWrapper}>
@@ -157,7 +159,16 @@ const SingleCourseScreen = ({route, navigation}) => {
                 inCart={inCart}
               />
               <View style={singleProduct.topicsData}>
-                <TopicList topicList={singleProduct.topicsData} />
+                {singleProduct.topicsData.length > 0 ? (
+                  <TopicList
+                    topicList={singleProduct.topicsData}
+                    isPreview={true}
+                  />
+                ) : (
+                  <Text style={styles.noContentTxt}>
+                    No course content available.
+                  </Text>
+                )}
               </View>
               <SimilarCourses
                 onChangeProduct={handleProductChange}
@@ -198,7 +209,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: obTheme.white,
     marginTop: 50,
-    paddingBottom: 24,
+    paddingBottom: 0,
   },
   contentWrapper: {
     flex: 1,
@@ -210,6 +221,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
+  },
+  noContentTxt: {
+    color: obTheme.lightGray,
+    fontSize: 14,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    paddingTop: 8,
   },
 });
 
