@@ -63,9 +63,9 @@ const CourseDetailScreen = ({route, navigation}) => {
       let res = await axios.get(
         `${api_url}/courseDetail?sub_id=${subId}&user_id=${currentUser.id}`,
       );
-      console.log("User Course Detail res", res);
+      console.log("User Course Detail res", res.data);
 
-      if (!isEmptyObj(res.data)) {
+      if (!isEmptyObj(res.data) && res.data.sectionTopic.length > 0) {
         setCoursesData({
           ...coursesData,
           data: res.data.sectionTopic,
@@ -106,39 +106,47 @@ const CourseDetailScreen = ({route, navigation}) => {
   return (
     <View style={styles.parentContainer}>
       {coursesData.data !== null ? (
-        <>
-          <View style={styles.playerWrap}>{playerRender()}</View>
-          <View style={styles.scrollWrap}>
-            <FlatList
-              ListHeaderComponent={
-                <View style={styles.topicInfoWrap}>
-                  {coursesData.activeTopic !== null ? (
-                    <Text style={styles.topicTitleTxt}>
-                      {coursesData.activeTopic.title}
-                    </Text>
-                  ) : null}
-                </View>
-              }
-              data={coursesData.data}
-              renderItem={({item, index}) => {
-                console.log("Item", item.sectionId);
-                return (
-                  <ListItem
-                    item={{...item, ind: index}}
-                    activeTopic={
-                      item.sectionId === coursesData.activeTopic.sectionId
-                        ? coursesData.activeTopic.id
-                        : null
-                    }
-                  />
-                );
-              }}
-              showsHorizontalScrollIndicator={false}
-              style={styles.scrollWrap}
-              contentContainerStyle={{flexGrow: 1}}
-            />
+        coursesData.data.length > 0 ? (
+          <>
+            <View style={styles.playerWrap}>{playerRender()}</View>
+            <View style={styles.scrollWrap}>
+              <FlatList
+                ListHeaderComponent={
+                  <View style={styles.topicInfoWrap}>
+                    {coursesData.activeTopic !== null ? (
+                      <Text style={styles.topicTitleTxt}>
+                        {coursesData.activeTopic.title}
+                      </Text>
+                    ) : null}
+                  </View>
+                }
+                data={coursesData.data}
+                renderItem={({item, index}) => {
+                  console.log("Item", item.sectionId);
+                  return (
+                    <ListItem
+                      item={{...item, ind: index}}
+                      activeTopic={
+                        item.sectionId === coursesData.activeTopic.sectionId
+                          ? coursesData.activeTopic.id
+                          : null
+                      }
+                    />
+                  );
+                }}
+                showsHorizontalScrollIndicator={false}
+                style={styles.scrollWrap}
+                contentContainerStyle={{flexGrow: 1}}
+              />
+            </View>
+          </>
+        ) : (
+          <View style={{padding: 16, alignItems: "center"}}>
+            <Text style={{color: obTheme.lightGray, fontSize: 16}}>
+              No topics available.
+            </Text>
           </View>
-        </>
+        )
       ) : (
         <View style={styles.loadWrap}>
           <ActivityIndicator size="large" />
@@ -153,8 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   playerWrap: {
-    // height: 220,
-    flex: 1,
+    height: 350,
   },
   scrollWrap: {
     flex: 2,

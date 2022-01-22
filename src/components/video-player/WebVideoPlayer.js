@@ -1,5 +1,6 @@
 import React from "react";
 import {ActivityIndicator, Text, View} from "react-native";
+import Orientation from "react-native-orientation-locker";
 import {WebView} from "react-native-webview";
 
 const WebVideoPlayer = ({videoUrl}) => {
@@ -9,30 +10,29 @@ const WebVideoPlayer = ({videoUrl}) => {
 
   return (
     <View style={{flex: 1}}>
-      <Text
+      {/* <Text
         selectable={true}
         selectionColor="orange"
         style={{color: "#000000"}}>
         {videoUrl}
-      </Text>
+      </Text> */}
       <WebView
         onLoad={() => setIsLoading(false)}
         javaScriptEnabled={true}
         injectedJavaScript={`
-        (function() {
-          
-          setTimeout(() => {
-            
-            const video = document.getElementsByTagName("video")[0];
-            video.addEventListener('webkitbeginfullscreen', (event) => {
-              window.ReactNativeWebView.postMessage("Full Screen");
+        setTimeout(() => {
+            document.getElementsByClassName('vjs-control-bar')[0].addEventListener('touchstart', function(){
+              setTimeout(() => {
+                if(document.getElementById('vjs_video_3').classList.contains('vjs-fullscreen')) {
+                  window.ReactNativeWebView.postMessage("fs-active");
+                } else {
+                  window.ReactNativeWebView.postMessage("fs-inactive");
+                }
+              }, 500)
             })
-            video.addEventListener('webkitendfullscreen', (event) => {
-              window.ReactNativeWebView.postMessage("End Full Screen");
-            })
-          }, 3000)
-        })();
-        true; // note: this is required, or you'll sometimes get silent failures
+        }, 2000)
+        
+        true;
         `}
         // scrollEnabled={true}
         allowsFullscreenVideo={true}
@@ -52,7 +52,18 @@ const WebVideoPlayer = ({videoUrl}) => {
           console.log("WebView error: ", nativeEvent);
         }}
         thirdPartyCookiesEnabled={true}
-        onMessage={m => console.log("alert", m.nativeEvent.data)}
+        onMessage={m => {
+          console.log("alert", m.nativeEvent.data);
+
+          if (m.nativeEvent.data === "fs-active") {
+            Orientation.unlockAllOrientations();
+            Orientation.lockToLandscape();
+          }
+          if (m.nativeEvent.data === "fs-inactive") {
+            Orientation.unlockAllOrientations();
+            Orientation.lockToPortrait();
+          }
+        }}
       />
       <View style={{position: "absolute"}}>
         {isLoading ? <ActivityIndicator size="large" /> : null}

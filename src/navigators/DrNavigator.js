@@ -120,7 +120,7 @@ const DrNavigator = () => {
             name="Change Password"
             component={ChangePasswordScreen}
           />
-          <Drawer.Screen name="Order Success" component={OrderSuccessScreen} />
+          {/* <Drawer.Screen name="Order Success" component={OrderSuccessScreen} /> */}
         </>
       ) : null}
       {/* <Drawer.Screen name="Courses" component={StNavigator} /> */}

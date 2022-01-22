@@ -14,6 +14,7 @@ import OrderSuccessScreen from "../screens/OrderSuccessScreen";
 import MyProfileScreen from "../screens/MyProfileScreen";
 import CourseDetailScreen from "../screens/CourseDetailScreen";
 import CategoryScreen from "../screens/CategoryScreen";
+import PreviewTopicScreen from "../screens/PreviewTopicScreen";
 
 const StNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -47,6 +48,7 @@ const StNavigator = () => {
       <Stack.Screen name="CoursesScreen" component={CoursesScreen} />
       <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
       <Stack.Screen name="SingleCourseScreen" component={SingleCourseScreen} />
+      <Stack.Screen name="PreviewTopicScreen" component={PreviewTopicScreen} />
       <Stack.Screen name="SearchScreen" component={SearchCourseScreen} />
       <Stack.Screen name="My Courses" component={MyCoursesScreen} />
       <Stack.Screen name="Cart" component={CartScreen} />

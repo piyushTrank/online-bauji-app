@@ -163,6 +163,7 @@ const SingleCourseScreen = ({route, navigation}) => {
                   <TopicList
                     topicList={singleProduct.topicsData}
                     isPreview={true}
+                    navigation={navigation}
                   />
                 ) : (
                   <Text style={styles.noContentTxt}>

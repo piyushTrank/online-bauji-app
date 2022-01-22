@@ -6,12 +6,13 @@ import Accordian from "../accordian/Accordian";
 import {obTheme} from "../utils/colors";
 import TopicItem from "./TopicItem";
 
-const TopicList = ({topicList, isPreview}) => {
+const TopicList = ({topicList, isPreview, navigation}) => {
   const dispatch = useDispatch();
 
   const handlePreview = topicInfo => {
     console.log("topicInfo", topicInfo);
     dispatch(changeTopic(topicInfo));
+    navigation.navigate("PreviewTopicScreen");
   };
 
   const renderTopics = (arr, sectionId) => {
