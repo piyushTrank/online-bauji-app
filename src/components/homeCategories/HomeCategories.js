@@ -78,9 +78,7 @@ const HomeCategories = ({navigation}) => {
         <Text style={styles.categoryHeaderTxt}>CATEGORIES</Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() =>
-            navigation.navigate("Drawer Navigation", {screen: "Courses"})
-          }>
+          onPress={() => navigation.navigate("AllCategoriesScreen")}>
           <View style={styles.btnWrap}>
             <Text style={styles.btnTxt}>SEE ALL</Text>
             <LinkArrowSvg />

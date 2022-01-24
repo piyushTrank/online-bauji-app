@@ -29,7 +29,8 @@ const BillingAddressScreen = ({navigation}) => {
       <View style={styles.scrollContainer}>
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
-          style={styles.scrollWrap}>
+          style={styles.scrollWrap}
+          keyboardShouldPersistTaps="handled">
           <CheckoutBillingAdd userId={currentUser.id} />
         </ScrollView>
       </View>

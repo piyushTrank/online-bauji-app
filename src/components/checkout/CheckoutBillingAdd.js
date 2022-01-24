@@ -13,6 +13,7 @@ import {FloatingTitleTextInputField} from "../global/FloatingTitleTextInputField
 import {api_url} from "../utils/apiInfo";
 import {obTheme} from "../utils/colors";
 import {isEmptyObj} from "../utils/utilFn";
+import CountryPicker from "../country-picker/CountryPicker";
 
 const CheckoutBillingAdd = ({userId}) => {
   const dispatch = useDispatch();
@@ -84,6 +85,22 @@ const CheckoutBillingAdd = ({userId}) => {
     }
   };
 
+  const onSelectChange = (selectedPickerVal, selectType) => {
+    console.log("onSelectChange", selectedPickerVal, selectType);
+
+    if (selectType === "selectedCountry") {
+      setFormVal({
+        ...formVal,
+        country: selectedPickerVal.label,
+      });
+    } else {
+      setFormVal({
+        ...formVal,
+        state: selectedPickerVal.label,
+      });
+    }
+  };
+
   return (
     <View style={styles.parentContainer}>
       <Text style={styles.billingAddHead}>Billing Details</Text>
@@ -116,24 +133,10 @@ const CheckoutBillingAdd = ({userId}) => {
               otherTextInputProps={{}}
             />
           </View>
-          <View style={styles.fieldWrap}>
-            <FloatingTitleTextInputField
-              attrName="country"
-              title="Country*"
-              value={formVal.country}
-              updateMasterState={updateMasterState}
-              otherTextInputProps={{}}
-            />
-          </View>
-          <View style={styles.fieldWrap}>
-            <FloatingTitleTextInputField
-              attrName="state"
-              title="State*"
-              value={formVal.state}
-              updateMasterState={updateMasterState}
-              otherTextInputProps={{}}
-            />
-          </View>
+          <CountryPicker
+            onSelectChange={onSelectChange}
+            data={{country: formVal.country, state: formVal.state}}
+          />
           <View style={styles.fieldWrap}>
             <FloatingTitleTextInputField
               attrName="address_1"

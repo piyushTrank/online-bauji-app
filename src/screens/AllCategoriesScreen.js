@@ -1,44 +1,33 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import Header from "../components/header/Header";
+import {View, StyleSheet, ScrollView} from "react-native";
 import {obTheme} from "../components/utils/colors";
-import ChangePasswordForm from "../components/change-password-form/ChangePasswordForm";
+import Header from "../components/header/Header";
+import CategoryList from "../components/category-list/CategoryList";
 
-const ChangePasswordScreen = ({navigation}) => {
+function AllCategoriesScreen({route, navigation}) {
   return (
     <View style={styles.parentContainer}>
       <View style={styles.headerWrapper}>
-        <Header
-          navigation={navigation}
-          showDrawer={false}
-          showBack={true}
-          showCart={false}
-          showSearch={false}
-          showUser={false}
-        />
+        <Header navigation={navigation} />
       </View>
       <View style={styles.scrollContainer}>
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
-          style={styles.scrollWrap}
-          keyboardShouldPersistTaps="handled">
-          <ChangePasswordForm />
+          style={styles.scrollWrap}>
+          <CategoryList navigation={navigation} />
         </ScrollView>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
     backgroundColor: obTheme.secondary,
+  },
+  headerWrapper: {
+    flex: 1,
   },
   scrollWrap: {
     paddingVertical: 30,
@@ -46,7 +35,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     borderTopStartRadius: 30,
     borderTopEndRadius: 30,
-    flex: 1,
+    flex: 2,
     backgroundColor: obTheme.white,
     marginTop: 50,
   },
@@ -55,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChangePasswordScreen;
+export default AllCategoriesScreen;

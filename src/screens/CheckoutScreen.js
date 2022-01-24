@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Toast from "react-native-toast-message";
-import {SafeAreaView, StyleSheet, View, ScrollView} from "react-native";
+import {SafeAreaView, StyleSheet, View, ScrollView, LogBox} from "react-native";
 import RazorpayCheckout from "react-native-razorpay";
 import {useDispatch, useSelector} from "react-redux";
 import CheckoutList from "../components/checkout-list/CheckoutList";
@@ -23,6 +23,7 @@ const CheckoutScreen = ({navigation}) => {
 
   React.useEffect(() => {
     //dispatch(getCart());
+    LogBox.ignoreAllLogs(); //Ignore all log notifications
   }, []);
 
   const handlePaymentSuccess = async (response, orderData) => {

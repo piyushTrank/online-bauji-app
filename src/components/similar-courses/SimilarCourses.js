@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import {decode} from "html-entities";
 import {useSelector} from "react-redux";
@@ -99,7 +100,7 @@ const ListItem = props => {
   );
 };
 
-const SimilarCourses = ({onChangeProduct, courseIds}) => {
+const SimilarCourses = ({onChangeProduct, courseIds, navigation}) => {
   const obLatestProducts = useSelector(state => state.misc.latestProducts);
 
   const [latestProductData, setLatestProductData] = React.useState(null);
@@ -136,12 +137,16 @@ const SimilarCourses = ({onChangeProduct, courseIds}) => {
     <View style={styles.parentContainer}>
       <View style={styles.categoryHeader}>
         <Text style={styles.categoryHeaderTxt}>Similar Courses</Text>
-        <TouchableWithoutFeedback onPress={handleCategoryNav}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            navigation.navigate("Drawer Navigation", {screen: "Courses"})
+          }>
           <View style={styles.btnWrap}>
             <Text style={styles.btnTxt}>SEE ALL</Text>
             <LinkArrowSvg />
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
       <View style={styles.categoryContent}>
         <FlatList

@@ -6,11 +6,14 @@ import {
   View,
   Text,
   ActivityIndicator,
+  Platform,
 } from "react-native";
+import ImagePicker from "react-native-image-crop-picker";
 import FastImage from "react-native-fast-image";
 import Toast from "react-native-toast-message";
 import {useSelector} from "react-redux";
 import {FloatingTitleTextInputField} from "../global/FloatingTitleTextInputField";
+import Icon from "../IconNB";
 import {api_url} from "../utils/apiInfo";
 import {obTheme} from "../utils/colors";
 
@@ -23,6 +26,7 @@ const MyProfileForm = () => {
     email: "",
     avatar_url: "",
     display_name: "",
+    selectedFile: null,
     isLoading: true,
   });
 
@@ -62,6 +66,18 @@ const MyProfileForm = () => {
     finalData.append("first_name", formVal.first_name);
     finalData.append("last_name", formVal.last_name);
     finalData.append("display_name", formVal.display_name);
+    if (formVal.selectedFile !== null) {
+      finalData.append("image", {
+        name: formVal.selectedFile.path.substr(
+          formVal.selectedFile.path.lastIndexOf("/") + 1,
+        ),
+        type: formVal.selectedFile.mime,
+        uri:
+          Platform.OS === "android"
+            ? formVal.selectedFile.path
+            : formVal.selectedFile.path.replace("file://", ""),
+      });
+    }
 
     // Display the values
     // for (var value of finalData.values()) {
@@ -92,26 +108,63 @@ const MyProfileForm = () => {
     });
   }
 
+  const handleImgChange = () => {
+    ImagePicker.openPicker({
+      width: 128,
+      height: 128,
+      cropping: true,
+      mediaType: "photo",
+      includeBase64: true,
+    }).then(image => {
+      setFormVal({
+        ...formVal,
+        selectedFile: {
+          ...image,
+          baseImg: `data:${image.mime};base64,${image.data}`,
+        },
+      });
+      console.log("Image picker", image);
+    });
+  };
+
   return (
     <View style={styles.parentContainer}>
       <Text style={styles.formHead}>Update Your Profile</Text>
       {!formVal.isLoading ? (
         <View style={styles.profileForm}>
-          <FastImage
-            style={{
-              width: 100,
-              height: 100,
-              alignSelf: "center",
-              flex: 1,
-              borderRadius: 32,
-              marginTop: 24,
-            }}
-            source={{
-              uri: formVal.avatar_url,
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.cover}
-          />
+          <View style={styles.avatarWrap}>
+            <FastImage
+              style={{
+                width: 100,
+                height: 100,
+                alignSelf: "center",
+                flex: 1,
+                borderRadius: 50,
+                marginTop: 24,
+                backgroundColor: obTheme.white,
+                elevation: 2,
+              }}
+              source={{
+                uri:
+                  formVal.selectedFile === null
+                    ? formVal.avatar_url
+                    : formVal.selectedFile.baseImg,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+            <TouchableOpacity onPress={handleImgChange}>
+              <View style={styles.uploadBtn}>
+                <Icon
+                  type="MaterialIcons"
+                  name="file-upload"
+                  color={obTheme.white}
+                  size={24}
+                />
+                <Text style={styles.uploadBtnTxt}>Upload</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
           <View style={styles.fieldWrap}>
             <FloatingTitleTextInputField
               attrName="first_name"
@@ -199,6 +252,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "700",
     textTransform: "uppercase",
+  },
+  avatarWrap: {
+    width: 120,
+    height: 150,
+    alignSelf: "center",
+  },
+  uploadBtn: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    backgroundColor: obTheme.primary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 30,
+    width: 100,
+    alignSelf: "center",
+  },
+  uploadBtnTxt: {
+    color: obTheme.white,
+    fontSize: 12,
+    fontWeight: "500",
   },
 });
 

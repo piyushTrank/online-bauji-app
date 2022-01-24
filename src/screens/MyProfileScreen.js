@@ -26,7 +26,8 @@ const MyProfileScreen = ({navigation}) => {
       <View style={styles.scrollContainer}>
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
-          style={styles.scrollWrap}>
+          style={styles.scrollWrap}
+          keyboardShouldPersistTaps="handled">
           <MyProfileForm />
         </ScrollView>
       </View>

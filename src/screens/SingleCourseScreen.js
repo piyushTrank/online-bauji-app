@@ -174,6 +174,7 @@ const SingleCourseScreen = ({route, navigation}) => {
               <SimilarCourses
                 onChangeProduct={handleProductChange}
                 courseIds={singleProduct.data.related_ids.join(",")}
+                navigation={navigation}
               />
             </ScrollView>
           </View>

@@ -220,9 +220,9 @@ const CourseList = () => {
               ? fetchCourses(courseData.currentPage + 1)
               : null;
           }}
-          refreshing={courseData.isRefreshing}
-          onRefresh={handleRefresh}
-          progressViewOffset={40}
+          // refreshing={courseData.isRefreshing}
+          // onRefresh={handleRefresh}
+          // progressViewOffset={40}
           //columnWrapperStyle={{flexGrow: 1}}
           contentContainerStyle={{flexGrow: 1}}
         />

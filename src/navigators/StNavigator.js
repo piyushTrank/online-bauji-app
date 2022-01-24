@@ -15,6 +15,7 @@ import MyProfileScreen from "../screens/MyProfileScreen";
 import CourseDetailScreen from "../screens/CourseDetailScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import PreviewTopicScreen from "../screens/PreviewTopicScreen";
+import AllCategoriesScreen from "../screens/AllCategoriesScreen";
 
 const StNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -47,6 +48,10 @@ const StNavigator = () => {
       {/* <Stack.Screen name="Go to Home Screen" component={TbNavigator} /> */}
       <Stack.Screen name="CoursesScreen" component={CoursesScreen} />
       <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+      <Stack.Screen
+        name="AllCategoriesScreen"
+        component={AllCategoriesScreen}
+      />
       <Stack.Screen name="SingleCourseScreen" component={SingleCourseScreen} />
       <Stack.Screen name="PreviewTopicScreen" component={PreviewTopicScreen} />
       <Stack.Screen name="SearchScreen" component={SearchCourseScreen} />
