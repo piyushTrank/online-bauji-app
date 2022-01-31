@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  LogBox,
 } from "react-native";
 import {useSelector} from "react-redux";
 import Header from "../components/header/Header";
@@ -32,6 +33,10 @@ const SingleCourseScreen = ({route, navigation}) => {
     status: null,
     variationName: null,
   });
+
+  React.useEffect(() => {
+    LogBox.ignoreLogs([]);
+  }, []);
 
   const chkCart = prodId => {
     const prodExists = cart.filter(el => el.id === prodId);
@@ -210,7 +215,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
     paddingBottom: 0,
   },
   contentWrapper: {

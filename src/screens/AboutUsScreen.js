@@ -1,24 +1,32 @@
 import React from "react";
-import {View, StyleSheet, ScrollView, Text} from "react-native";
-import CategorySelect from "../components/course-list/category-select";
-
-import CourseList from "../components/course-list/CourseList";
+import {View, StyleSheet} from "react-native";
+import WebView from "react-native-webview";
 import Header from "../components/header/Header";
-import TabNavbar from "../components/tab-navbar/TabNavbar";
 import {obTheme} from "../components/utils/colors";
 
-const CoursesScreen = ({navigation}) => {
+const AboutUsScreen = ({navigation}) => {
   return (
     <View style={styles.parentContainer}>
       <View style={styles.headerWrapper}>
         <Header navigation={navigation} />
       </View>
       <View style={styles.scrollContainer}>
-        <CourseList />
-      </View>
-
-      <View style={styles.tabNavCont}>
-        <TabNavbar />
+        <WebView
+          javaScriptEnabled={true}
+          source={{
+            uri: `https://www.onlinebauji.com/about-us?hideLayout=true`,
+          }}
+          style={{flex: 1}}
+          sharedCookiesEnabled={true}
+          useWebKit
+          mixedContentMode="always"
+          onError={syntheticEvent => {
+            const {nativeEvent} = syntheticEvent;
+            console.log("WebView error: ", nativeEvent);
+          }}
+          cacheEnabled={false}
+          thirdPartyCookiesEnabled={true}
+        />
       </View>
     </View>
   );
@@ -42,9 +50,6 @@ const styles = StyleSheet.create({
   headerWrapper: {
     backgroundColor: obTheme.secondary,
   },
-  tabNavCont: {
-    height: 56,
-  },
 });
 
-export default CoursesScreen;
+export default AboutUsScreen;

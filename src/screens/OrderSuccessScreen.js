@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
     flex: 1,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    marginTop: -10,
+    marginTop: 10,
     marginBottom: 8,
   },
 });

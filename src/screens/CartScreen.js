@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: obTheme.secondary,
   },
   scrollContainer: {
-    marginTop: 50,
+    marginTop: 20,
     flexGrow: 1,
     // flex: 1,
   },

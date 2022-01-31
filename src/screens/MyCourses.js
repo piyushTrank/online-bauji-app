@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
     flex: 1,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,

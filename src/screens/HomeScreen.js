@@ -21,6 +21,7 @@ import {
   getLatestProducts,
 } from "../store/actions/misc.actions";
 import TabNavbar from "../components/tab-navbar/TabNavbar";
+import LatestPosts from "../components/latest-posts/LatestPosts";
 
 function HomeScreen({route, navigation}) {
   const currentUser = useSelector(state => state.user.userInfo);
@@ -59,6 +60,7 @@ function HomeScreen({route, navigation}) {
           <HomeCategories navigation={navigation} />
           <TopSearch navigation={navigation} />
           <FeaturedCourses navigation={navigation} />
+          <LatestPosts navigation={navigation} />
         </ScrollView>
       </View>
       <View style={styles.tabNavCont}>
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
     flex: 2,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,

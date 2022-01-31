@@ -20,7 +20,10 @@ const SearchCourseScreen = ({navigation}) => {
   const [formVal, setFormVal] = React.useState({
     data: null,
     isLoading: false,
+    searchTxt: "",
   });
+
+  const inpRef = React.useRef(null);
 
   const handleSearch = async val => {
     setFormVal({
@@ -34,6 +37,7 @@ const SearchCourseScreen = ({navigation}) => {
     setFormVal({
       ...formVal,
       data: !!res.data.products ? res.data.products : [],
+      searchTxt: val,
       isLoading: false,
     });
   };
@@ -50,6 +54,7 @@ const SearchCourseScreen = ({navigation}) => {
         return formVal.data.map(el => (
           <TouchableOpacity
             activeOpacity={0.8}
+            key={el.id}
             onPress={() =>
               navigation.navigate("SingleCourseScreen", {prodId: el.id})
             }>
@@ -72,16 +77,18 @@ const SearchCourseScreen = ({navigation}) => {
           </TouchableOpacity>
         ));
       } else {
-        return (
-          <View key={el.id} style={styles.resultItem}>
+        return formVal.searchTxt !== "" ? (
+          <View style={styles.resultItem}>
             <Text style={styles.resultTitle}>No results found.</Text>
           </View>
-        );
+        ) : null;
       }
     } else {
       return null;
     }
   };
+
+  console.log("inpRef", inpRef);
 
   return (
     <View style={styles.parentContainer}>
@@ -113,6 +120,7 @@ const SearchCourseScreen = ({navigation}) => {
                 placeholder="Search Course"
                 placeholderTextColor="#999"
                 autoFocus={true}
+                ref={inpRef}
                 // value={text}
               />
             </View>
@@ -143,7 +151,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
     flex: 1,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,

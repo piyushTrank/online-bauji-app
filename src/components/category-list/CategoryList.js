@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import {decode} from "html-entities";
 import {obTheme} from "../utils/colors";
@@ -45,18 +46,19 @@ const CategoryList = ({navigation}) => {
     navigation.navigate("CategoryScreen", {data});
   };
 
-  const renderCategories = () => {
-    const parentCatArr = categoryData.data.filter(el => el.parent === 0);
+  const renderCategories = arr => {
+    const parentCatArr = arr.filter(el => el.parent === 0);
     console.log("prodId", parentCatArr.length);
 
-    categoryData.data.forEach(el => {
+    arr.forEach(el => {
       if (el.parent !== 0) {
         parentCatArr.forEach(parEl => {
           if (parEl.id === el.parent) {
             if (!parEl.childCat) {
               parEl.childCat = [el];
             } else {
-              parEl.childCat.push(el);
+              if (!parEl.childCat.some(chkEl => chkEl.id === el.id))
+                parEl.childCat.push(el);
             }
           }
         });
@@ -65,9 +67,19 @@ const CategoryList = ({navigation}) => {
 
     return parentCatArr.map(el => (
       <View key={el.id} style={styles.catItemWrap}>
-        <TouchableOpacity onPress={() => handleNavchange(el.id, null, el.name)}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => handleNavchange(el.id, null, el.name)}>
           <View style={styles.catBtnInner}>
-            <Text style={styles.catItemTxt}>{decode(el.name)}</Text>
+            <View style={styles.catBtnRight}>
+              <Icon
+                type="FontAwesome"
+                name="angle-right"
+                size={16}
+                color={obTheme.text}
+              />
+              <Text style={styles.catItemTxt}>{decode(el.name)}</Text>
+            </View>
             <Icon
               type="MaterialCommunityIcons"
               name="chevron-right-circle"
@@ -80,14 +92,23 @@ const CategoryList = ({navigation}) => {
           ? el.childCat.map(childEl => (
               <View key={childEl.id} style={styles.childCatItemWrap}>
                 <TouchableOpacity
+                  activeOpacity={0.8}
                   onPress={() =>
                     handleNavchange(childEl.id, el.id, childEl.name)
                   }>
                   <View
                     style={{...styles.catBtnInner, ...styles.childCatBtnInner}}>
-                    <Text style={styles.childCatItemTxt}>
-                      {decode(childEl.name)}
-                    </Text>
+                    <View style={styles.catBtnRight}>
+                      <Icon
+                        type="FontAwesome"
+                        name="angle-double-right"
+                        size={16}
+                        color={obTheme.text}
+                      />
+                      <Text style={styles.childCatItemTxt}>
+                        {decode(childEl.name)}
+                      </Text>
+                    </View>
                     <Icon
                       type="MaterialCommunityIcons"
                       name="chevron-right-circle"
@@ -109,9 +130,11 @@ const CategoryList = ({navigation}) => {
         <View style={styles.categoryHeader}>
           <Text style={styles.categoryHeaderTxt}>All Categories</Text>
         </View>
-        <View style={styles.categoryList}>
-          {categoryData.data !== null ? renderCategories() : null}
-        </View>
+        <ScrollView style={styles.categoryList}>
+          {categoryData.data !== null
+            ? renderCategories(categoryData.data)
+            : null}
+        </ScrollView>
       </View>
     </View>
   );
@@ -149,14 +172,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  catBtnRight: {
+    flexDirection: "row",
+  },
   catItemTxt: {
     color: obTheme.text,
+    fontWeight: "600",
+    paddingStart: 5,
   },
   childCatBtnInner: {
-    paddingStart: 24,
+    paddingStart: 32,
+    paddingVertical: 10,
   },
   childCatItemTxt: {
     color: obTheme.text,
+    paddingStart: 5,
   },
 });
 

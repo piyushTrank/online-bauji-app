@@ -1,7 +1,9 @@
 import React from "react";
-import {ActivityIndicator, Text, View} from "react-native";
+import {ActivityIndicator, StyleSheet, Dimensions, View} from "react-native";
 import Orientation from "react-native-orientation-locker";
 import {WebView} from "react-native-webview";
+
+const width = Dimensions.get("window").width;
 
 const WebVideoPlayer = ({videoUrl}) => {
   const runFirst = "alert('Working);";
@@ -65,11 +67,23 @@ const WebVideoPlayer = ({videoUrl}) => {
           }
         }}
       />
-      <View style={{position: "absolute"}}>
-        {isLoading ? <ActivityIndicator size="large" /> : null}
-      </View>
+
+      {isLoading ? (
+        <View style={styles.loadWrap}>
+          <ActivityIndicator size="large" />
+        </View>
+      ) : null}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  loadWrap: {
+    position: "absolute",
+    top: 250,
+    left: width / 2,
+    zIndex: -1,
+  },
+});
 
 export default WebVideoPlayer;

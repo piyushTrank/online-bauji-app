@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatList, StyleSheet, View, Text} from "react-native";
+import {TouchableOpacity, StyleSheet, View, Text} from "react-native";
 import {useDispatch} from "react-redux";
 import {changeTopic} from "../../store/actions/topic.actions";
 import Accordian from "../accordian/Accordian";
@@ -16,15 +16,37 @@ const TopicList = ({topicList, isPreview, navigation}) => {
   };
 
   const renderTopics = (arr, sectionId) => {
-    return arr.map(el => (
-      <TopicItem
-        data={el}
-        key={el.id}
-        isPreview={isPreview && el.topicPreview !== null}
-        handlePreview={handlePreview}
-        sectionId={sectionId}
-      />
-    ));
+    return arr.map(el => {
+      const dataToSend = {
+        title: el.topicTitle,
+        data:
+          isPreview && el.topicPreview !== null
+            ? el.topicPreview.previewData
+            : null,
+        type: el.topicType,
+        id: el.id,
+        sectionId,
+      };
+      return (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          key={el.id}
+          disabled={!(isPreview && el.topicPreview !== null)}
+          onPress={() =>
+            isPreview && el.topicPreview !== null
+              ? handlePreview(dataToSend)
+              : false
+          }>
+          <TopicItem
+            data={el}
+            key={el.id}
+            isPreview={isPreview && el.topicPreview !== null}
+            handlePreview={handlePreview}
+            sectionId={sectionId}
+          />
+        </TouchableOpacity>
+      );
+    });
   };
 
   const renderList = arr => {

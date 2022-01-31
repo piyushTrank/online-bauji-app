@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   View,
   StyleSheet,
@@ -6,81 +7,50 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import {decode} from "html-entities";
-import {useSelector} from "react-redux";
+import moment from "moment";
 import FastImage from "react-native-fast-image";
 
 import {LinkArrowSvg, StarSvg} from "../svg/GlobalIcons";
 import {obTheme} from "../utils/colors";
-import axios from "axios";
-import {api_url} from "../utils/apiInfo";
+import {api_blog_url} from "../utils/apiInfo";
 
 const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 const ListItem = props => {
-  // console.log("Props", props.item.parent, props);
-
-  const loadPrice = () => {
-    if (props.item.type === "variable") {
-      return (
-        <View style={{...styles.variablePriceWrap, ...styles.priceWrap}}>
-          <Text style={styles.variablePriceLabel}>Starting </Text>
-          <Text style={{...styles.variablePrice, ...styles.coursePrice}}>
-            ₹ {props.item.price}
-          </Text>
-        </View>
-      );
-    } else {
-      return (
-        <View style={{...styles.simplePriceWrap, ...styles.priceWrap}}>
-          {props.item.sale_price !== "" ? (
-            <>
-              <Text style={{...styles.simpleSalePrice, ...styles.coursePrice}}>
-                ₹ {props.item.sale_price}
-              </Text>
-              <Text style={{...styles.simpleRegPrice, ...styles.saleRegPrice}}>
-                ₹ {props.item.regular_price}
-              </Text>
-            </>
-          ) : (
-            <Text style={{...styles.simpleRegPrice, ...styles.coursePrice}}>
-              ₹ {props.item.regular_price}
+  const loadCategory = arr => {
+    return arr.map(el => {
+      if (el.length > 0) {
+        if (el[0].taxonomy === "category") {
+          return (
+            <Text
+              style={styles.categoryBtn}
+              key={el[0].id}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {decode(el[0].name)}
             </Text>
-          )}
-        </View>
-      );
-    }
-  };
-
-  const loadCategory = () => {
-    if (props.item.categories.length > 0) {
-      return props.item.categories.map(el => (
-        <Text
-          style={styles.categoryBtn}
-          key={el.id}
-          numberOfLines={1}
-          ellipsizeMode="tail">
-          {decode(el.name)}
-        </Text>
-      ));
-    } else {
-      return null;
-    }
+          );
+        }
+      } else {
+        return null;
+      }
+    });
   };
 
   return (
     <View style={styles.listItemCont}>
       <TouchableWithoutFeedback
-        onPress={() => props.handleItemClick(props.item.id)}>
+        onPress={() => props.handleItemClick(props.item.slug)}>
         <View style={styles.listItemWrap}>
           <View style={styles.listItemImg}>
-            {props.item.image !== null ? (
+            {props.item._embedded["wp:featuredmedia"][0].source_url !== null ? (
               <FastImage
                 style={{width: width / 2 - 10, height: 120}}
                 source={{
-                  uri: props.item.images[0].src,
+                  uri: props.item._embedded["wp:featuredmedia"][0].source_url,
                   priority: FastImage.priority.normal,
                 }}
                 resizeMode={FastImage.resizeMode.cover}
@@ -92,13 +62,16 @@ const ListItem = props => {
               style={styles.listItemTxt}
               numberOfLines={2}
               ellipsizeMode="tail">
-              {decode(props.item.name)}
+              {decode(props.item.title.rendered)}
             </Text>
-            <StarSvg
-              ratingCount={Math.floor(parseFloat(props.item.average_rating))}
-            />
-            <View style={styles.listItemPriceWrap}>{loadPrice()}</View>
-            <View style={styles.listItemPriceWrap}>{loadCategory()}</View>
+            <View style={styles.listItemPriceWrap}>
+              {loadCategory(props.item._embedded["wp:term"])}
+            </View>
+            <View style={styles.postDate}>
+              <Text style={styles.postDateTxt}>
+                Posted on: {moment(props.item.date).format("DD/MM/YYYY")}
+              </Text>
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -106,56 +79,59 @@ const ListItem = props => {
   );
 };
 
-const TopSearch = ({navigation}) => {
-  // const obLatestProducts = useSelector(state => state.misc.latestProducts);
-  const [topSearchData, setTopSearchData] = React.useState(null);
+const LatestPosts = ({navigation}) => {
+  const [latestPostsData, setLatestPostsDataData] = React.useState(null);
 
   React.useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get(
-      `${api_url}/custom-products?page=1&per_page=10&sort=popularity`,
-    );
+    let res = await axios.get(`${api_blog_url}/posts?_embed&page=1&per_page=5`);
 
-    console.log("Top Search res", res);
+    console.log("Latest Posts res", res);
 
-    setTopSearchData(res.data.product);
+    setLatestPostsDataData(res.data);
   };
 
-  const handleNavchange = prodId => {
-    console.log("prodId", prodId);
-    navigation.navigate("SingleCourseScreen", {prodId});
+  const handleNavchange = blogSlug => {
+    console.log("blogSlug", blogSlug);
+    navigation.navigate("BlogPostDetailScreen", {blogSlug});
   };
 
   return (
     <View style={styles.parentContainer}>
       <View style={styles.categoryHeader}>
-        <Text style={styles.categoryHeaderTxt}>TOP SEARCHES</Text>
+        <Text style={styles.categoryHeaderTxt}>Recent Posts</Text>
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate("Drawer Navigation", {screen: "Courses"})
+            navigation.navigate("Drawer Navigation", {screen: "Blog"})
           }>
           <View style={styles.btnWrap}>
             <Text style={styles.btnTxt}>SEE ALL</Text>
-            <LinkArrowSvg fill={obTheme.white} />
+            <LinkArrowSvg />
           </View>
         </TouchableWithoutFeedback>
       </View>
       <View style={styles.categoryContent}>
-        <FlatList
-          horizontal
-          data={topSearchData}
-          renderItem={({item, index}) => (
-            <ListItem
-              item={{...item, ind: index}}
-              handleItemClick={handleNavchange}
-            />
-          )}
-          showsHorizontalScrollIndicator={false}
-          style={styles.sliderContainer}
-        />
+        {latestPostsData !== null ? (
+          <FlatList
+            horizontal
+            data={latestPostsData}
+            renderItem={({item, index}) => (
+              <ListItem
+                item={{...item, ind: index}}
+                handleItemClick={handleNavchange}
+              />
+            )}
+            showsHorizontalScrollIndicator={false}
+            style={styles.sliderContainer}
+          />
+        ) : (
+          <View style={styles.loadWrap}>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -164,10 +140,9 @@ const TopSearch = ({navigation}) => {
 const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
-    backgroundColor: obTheme.secondary,
+    backgroundColor: obTheme.white,
     paddingHorizontal: 16,
-    paddingVertical: 32,
-    marginBottom: 36,
+    paddingBottom: 30,
   },
   categoryHeader: {
     flexDirection: "row",
@@ -178,7 +153,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
     lineHeight: 14,
-    color: obTheme.white,
+    color: obTheme.text,
+    textTransform: "uppercase",
   },
   btnWrap: {
     flexDirection: "row",
@@ -195,7 +171,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
     lineHeight: 14,
-    color: obTheme.white,
+    color: obTheme.text,
   },
   listItemImg: {
     borderTopStartRadius: 15,
@@ -204,7 +180,9 @@ const styles = StyleSheet.create({
     backgroundColor: obTheme.white,
     paddingHorizontal: 8,
     paddingBottom: 8,
-    minHeight: 125,
+    elevation: 5,
+    minHeight: 100,
+    marginBottom: 24,
   },
   listItemCont: {
     width: width / 2,
@@ -263,6 +241,18 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     textTransform: "uppercase",
   },
+  loadWrap: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  postDate: {
+    marginTop: 8,
+  },
+  postDateTxt: {
+    color: obTheme.lightGray,
+    fontSize: 11,
+  },
 });
 
-export default TopSearch;
+export default LatestPosts;

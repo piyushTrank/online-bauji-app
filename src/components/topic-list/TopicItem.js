@@ -32,6 +32,16 @@ const TopicItem = ({data, isPreview, handlePreview, sectionId}) => {
         </View>
       </View>
       {isPreview ? (
+        <View style={styles.playVideoWrap}>
+          <Icon
+            type="MaterialIcons"
+            name="play-circle-outline"
+            color={obTheme.secondary}
+            size={24}
+          />
+        </View>
+      ) : null}
+      {/* {isPreview ? (
         <TouchableOpacity onPress={onPreviewClick}>
           <View style={styles.playVideoWrap}>
             <Icon
@@ -42,7 +52,7 @@ const TopicItem = ({data, isPreview, handlePreview, sectionId}) => {
             />
           </View>
         </TouchableOpacity>
-      ) : null}
+      ) : null} */}
     </View>
   );
 };

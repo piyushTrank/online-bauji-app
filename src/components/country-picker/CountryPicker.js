@@ -20,7 +20,6 @@ const CountryPicker = ({wrapStyles, onSelectChange, data}) => {
 
   React.useEffect(() => {
     if (data.country !== "") {
-      console.log("I ran");
       updatePickerData(data);
     } else {
       fetchPickerData();
@@ -171,7 +170,7 @@ const CountryPicker = ({wrapStyles, onSelectChange, data}) => {
     <View style={{...styles.pickerWrap, ...wrapStyles}}>
       {pickerData.countryData !== null ? (
         <View style={styles.fieldWrap}>
-          <Text style={styles.labelTxt}>Select Country</Text>
+          <Text style={styles.labelTxt}>Select Country*</Text>
           <RNPickerSelect
             onValueChange={value => {
               console.log(value);
@@ -204,7 +203,7 @@ const CountryPicker = ({wrapStyles, onSelectChange, data}) => {
 
       {pickerData.stateData !== null ? (
         <View style={styles.fieldWrap}>
-          <Text style={styles.labelTxt}>Select State</Text>
+          <Text style={styles.labelTxt}>Select State*</Text>
           <RNPickerSelect
             onValueChange={value => {
               console.log(value);

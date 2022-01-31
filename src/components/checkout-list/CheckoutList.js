@@ -76,8 +76,6 @@ const CheckoutList = ({handleCheckout}) => {
     setCartPrice(cart.cartPrices);
   }, [cart]);
 
-  console.log("cartList", cart);
-
   return (
     <View style={styles.parentContainer}>
       <View style={styles.categoryContent}>

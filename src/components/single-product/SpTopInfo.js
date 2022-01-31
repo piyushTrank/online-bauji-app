@@ -129,7 +129,7 @@ const SpTopInfo = ({data, onChangeVariation, inCart}) => {
     try {
       const result = await Share.share({
         title: `${data.name}`,
-        message: `${data.name} | Online Bauji`,
+        message: `Hey, I saw this great course on Online Bauji. Checkout Here: ${main_domain}/courses/${data.slug}`,
         url: `${main_domain}/courses/${data.slug}`,
       });
       if (result.action === Share.sharedAction) {

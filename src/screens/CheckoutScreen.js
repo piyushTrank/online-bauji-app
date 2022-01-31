@@ -19,7 +19,10 @@ const CheckoutScreen = ({navigation}) => {
 
   const [checkoutDet, setCheckoutDet] = React.useState({
     payment_method: null,
+    isBillAddValid: false,
   });
+
+  const [billAddStatus, setBillAddStatus] = React.useState(false);
 
   React.useEffect(() => {
     //dispatch(getCart());
@@ -121,7 +124,12 @@ const CheckoutScreen = ({navigation}) => {
   const handleCheckout = async () => {
     try {
       if (checkoutDet.payment_method === null) {
-        new Error(`No payment method selected`);
+        throw Error(`No payment method selected.`);
+        return;
+      }
+
+      if (!billAddStatus) {
+        throw Error(`Please fill (*) marked fields in billing address.`);
         return;
       }
 
@@ -142,6 +150,11 @@ const CheckoutScreen = ({navigation}) => {
       }
     } catch (error) {
       console.log("Checkout error", error);
+      Toast.show({
+        type: "error",
+        text1: error.message,
+        position: "bottom",
+      });
     }
   };
 
@@ -151,6 +164,11 @@ const CheckoutScreen = ({navigation}) => {
       ...checkoutDet,
       payment_method: payMethod,
     });
+  };
+
+  const isBillAddValid = status => {
+    console.log("isBillAddValid", status);
+    setBillAddStatus(status);
   };
 
   return (
@@ -170,7 +188,10 @@ const CheckoutScreen = ({navigation}) => {
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
           style={styles.scrollWrap}>
-          <CheckoutBillingAdd userId={currentUser.id} />
+          <CheckoutBillingAdd
+            userId={currentUser.id}
+            validityChk={isBillAddValid}
+          />
           <PayMethods getPayMethod={getPayMethod} />
           <CheckoutList handleCheckout={handleCheckout} />
         </ScrollView>
@@ -192,7 +213,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
     flex: 1,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
     flexGrow: 1,
   },
   contentWrapper: {

@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import React from "react";
-import {useDispatch} from "react-redux";
+import {LogBox} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
 import {getCart} from "./src/store/actions/cart.actions";
 import SplashScreenFirst from "./src/components/splash-screens/SplashScreenFirst";
 import StNavigator from "./src/navigators/StNavigator";
@@ -11,24 +12,18 @@ const Stack = createNativeStackNavigator();
 function RootNavigator() {
   const dispatch = useDispatch();
   const [hideSplash, setHideSplash] = React.useState(false);
-  // const [showAuth, setShowAuth] = React.useState(true);
+  const [isUser, setIsUser] = React.useState("");
+  const currentUser = useSelector(state => state.user.userInfo);
 
-  // const currentUser = useSelector(state => state.user.userInfo);
-  // const authSkip = useSelector(state => state.metaData.authSkip);
-
-  // React.useEffect(() => {
-  //   if (currentUser !== null) {
-  //     setShowAuth(false);
-  //   } else if (!!authSkip) {
-  //     setShowAuth(false);
-  //   } else {
-  //     setShowAuth(true);
-  //   }
-  // });
+  React.useEffect(() => {
+    LogBox.ignoreLogs([]);
+  }, []);
 
   //Get Cart
   React.useEffect(() => {
     dispatch(getCart());
+
+    setIsUser(currentUser);
   }, []);
 
   React.useEffect(() => {
@@ -43,7 +38,7 @@ function RootNavigator() {
 
   const renderNavigation = () => {
     return (
-      <StNavigator />
+      <StNavigator userInfo={currentUser} />
       // <Stack.Navigator screenOptions={{headerShown: false}}>
       //   {showAuth ? (
       //     <>
@@ -56,7 +51,11 @@ function RootNavigator() {
     );
   };
 
-  return hideSplash ? renderNavigation() : <SplashScreenFirst />;
+  return hideSplash && isUser !== "" ? (
+    renderNavigation()
+  ) : (
+    <SplashScreenFirst />
+  );
 }
 
 export default RootNavigator;

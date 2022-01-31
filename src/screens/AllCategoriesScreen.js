@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
     flex: 2,
     backgroundColor: obTheme.white,
-    marginTop: 50,
+    marginTop: 20,
   },
   headerWrapper: {
     backgroundColor: obTheme.secondary,

@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   View,
   StyleSheet,
@@ -6,14 +7,14 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import {decode} from "html-entities";
-import {useSelector} from "react-redux";
 import FastImage from "react-native-fast-image";
 
 import {LinkArrowSvg, StarSvg} from "../svg/GlobalIcons";
 import {obTheme} from "../utils/colors";
-import {useNavigation} from "@react-navigation/native";
+import {api_url} from "../utils/apiInfo";
 
 const width = Dimensions.get("window").width;
 
@@ -103,12 +104,22 @@ const ListItem = props => {
 };
 
 const FeaturedCourses = ({navigation}) => {
-  const obLatestProducts = useSelector(state => state.misc.latestProducts);
-  const [latestProductData, setLatestProductData] = React.useState(null);
+  // const obLatestProducts = useSelector(state => state.misc.latestProducts);
+  const [featuredData, setFeaturedData] = React.useState(null);
 
   React.useEffect(() => {
-    setLatestProductData(obLatestProducts);
-  }, [obLatestProducts]);
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    let res = await axios.get(
+      `${api_url}/custom-products?page=1&per_page=10&sort=default&featured=true`,
+    );
+
+    console.log("Featured Course res", res);
+
+    setFeaturedData(res.data.product);
+  };
 
   const handleNavchange = prodId => {
     console.log("prodId", prodId);
@@ -130,18 +141,24 @@ const FeaturedCourses = ({navigation}) => {
         </TouchableWithoutFeedback>
       </View>
       <View style={styles.categoryContent}>
-        <FlatList
-          horizontal
-          data={latestProductData}
-          renderItem={({item, index}) => (
-            <ListItem
-              item={{...item, ind: index}}
-              handleItemClick={handleNavchange}
-            />
-          )}
-          showsHorizontalScrollIndicator={false}
-          style={styles.sliderContainer}
-        />
+        {featuredData !== null ? (
+          <FlatList
+            horizontal
+            data={featuredData}
+            renderItem={({item, index}) => (
+              <ListItem
+                item={{...item, ind: index}}
+                handleItemClick={handleNavchange}
+              />
+            )}
+            showsHorizontalScrollIndicator={false}
+            style={styles.sliderContainer}
+          />
+        ) : (
+          <View style={styles.loadWrap}>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -250,6 +267,11 @@ const styles = StyleSheet.create({
     color: obTheme.white,
     alignSelf: "flex-start",
     textTransform: "uppercase",
+  },
+  loadWrap: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

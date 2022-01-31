@@ -145,16 +145,26 @@ const CategoryCourseList = ({catData}) => {
 
       //console.log("Course res:", res.data);
 
-      setCourseData({
-        ...courseData,
-        data:
-          courseData.data === null
-            ? res.data.product
-            : [...courseData.data, ...res.data.product],
-        currentPage: courseData.currentPage + 1,
-        isRefreshing: false,
-        isLoading: false,
-      });
+      if (res.data.product.length > 0) {
+        setCourseData({
+          ...courseData,
+          data:
+            courseData.data === null
+              ? res.data.product
+              : [...courseData.data, ...res.data.product],
+          currentPage: courseData.currentPage + 1,
+          isRefreshing: false,
+          isLoading: false,
+        });
+      } else {
+        setCourseData({
+          ...courseData,
+          loadMoreStatus: false,
+          isRefreshing: false,
+          isLoading: false,
+          currentPage: 0,
+        });
+      }
     } catch (err) {
       console.log("Blog Err", err);
     }

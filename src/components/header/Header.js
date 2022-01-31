@@ -3,7 +3,6 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from "react-native";
@@ -12,8 +11,7 @@ import Icon from "../IconNB";
 import {obTheme} from "../utils/colors";
 
 import {SearchSvg, UserSvg, BackSvg, HeaderCartSvg} from "../svg/HeaderIcons";
-
-const headerLogo = require("../../assets/images/home/ob_home_logo.png");
+import {ObLogo} from "../svg/GlobalIcons";
 
 const Header = ({
   navigation,
@@ -61,11 +59,7 @@ const Header = ({
       ) : null}
       {showLogo ? (
         <View style={styles.logo}>
-          <Image
-            source={headerLogo}
-            style={styles.logoImg}
-            resizeMode={"contain"}
-          />
+          <ObLogo />
         </View>
       ) : null}
       <View style={styles.headerOp}>

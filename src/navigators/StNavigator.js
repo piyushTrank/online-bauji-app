@@ -16,8 +16,9 @@ import CourseDetailScreen from "../screens/CourseDetailScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import PreviewTopicScreen from "../screens/PreviewTopicScreen";
 import AllCategoriesScreen from "../screens/AllCategoriesScreen";
+import BlogPostDetailScreen from "../screens/BlogPostDetailScreen";
 
-const StNavigator = () => {
+const StNavigator = ({userInfo}) => {
   const Stack = createNativeStackNavigator();
   const [showAuth, setShowAuth] = React.useState(true);
 
@@ -36,7 +37,7 @@ const StNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="otpscreen"
+      initialRouteName={userInfo === null ? "otpscreen" : "Drawer Navigation"}
       screenOptions={{headerShown: false}}>
       {showAuth ? (
         <>
@@ -61,6 +62,10 @@ const StNavigator = () => {
       <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} />
       <Stack.Screen name="MyProfileScreen" component={MyProfileScreen} />
       <Stack.Screen name="CourseDetailScreen" component={CourseDetailScreen} />
+      <Stack.Screen
+        name="BlogPostDetailScreen"
+        component={BlogPostDetailScreen}
+      />
 
       {/* <Stack.Screen name="My Account Screen" component={DrNavigator} /> */}
     </Stack.Navigator>

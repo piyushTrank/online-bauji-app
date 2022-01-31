@@ -15,14 +15,19 @@ import {userLogout} from "../store/actions/auth.actions";
 import HomeScreen from "../screens/HomeScreen";
 import CoursesScreen from "../screens/CoursesScreen";
 import OrderSuccessScreen from "../screens/OrderSuccessScreen";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View, Image} from "react-native";
 import FastImage from "react-native-fast-image";
 import {obTheme} from "../components/utils/colors";
 import BillingAddressScreen from "../screens/BillingAddressScreen";
 import ChangePasswordScreen from "../screens/ChangePassword";
 import {changeAuthSkip} from "../store/actions/metaData.actions";
+import AboutUsScreen from "../screens/AboutUsScreen";
+import TncScreen from "../screens/TncScreen";
+import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen";
+import MyCoursesScreen from "../screens/MyCourses";
 
 const defaultUser = require("../assets/images/global/default_user.png");
+const headerLogo = require("../assets/images/home/dark-logo.png");
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -30,6 +35,14 @@ function CustomDrawerContent(props) {
 
   return (
     <DrawerContentScrollView {...props}>
+      <View style={styles.logo}>
+        <Image
+          source={headerLogo}
+          style={styles.logoImg}
+          resizeMode={"contain"}
+          width={150}
+        />
+      </View>
       <View style={styles.headerCont}>
         <View style={styles.userImgWrap}>
           <FastImage
@@ -42,7 +55,9 @@ function CustomDrawerContent(props) {
             source={
               props.currentUser !== null
                 ? {
-                    uri: props.currentUser.avatar_url,
+                    uri: Array.isArray(props.currentUser.avatar_url)
+                      ? props.currentUser.avatar_url[0]
+                      : props.currentUser.avatar_url,
                     priority: FastImage.priority.normal,
                   }
                 : defaultUser
@@ -108,7 +123,10 @@ const DrNavigator = () => {
       )}>
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Courses" component={CoursesScreen} />
-
+      {currentUser !== null ? (
+        <Drawer.Screen name="My Courses" component={MyCoursesScreen} />
+      ) : null}
+      <Drawer.Screen name="About Us" component={AboutUsScreen} />
       <Drawer.Screen name="Blog" component={BlogScreen} />
       {currentUser !== null ? (
         <>
@@ -123,6 +141,8 @@ const DrNavigator = () => {
           {/* <Drawer.Screen name="Order Success" component={OrderSuccessScreen} /> */}
         </>
       ) : null}
+      <Drawer.Screen name="Terms & Conditions" component={TncScreen} />
+      <Drawer.Screen name="Privacy Policy" component={PrivacyPolicyScreen} />
       {/* <Drawer.Screen name="Courses" component={StNavigator} /> */}
     </Drawer.Navigator>
   );
@@ -165,6 +185,10 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "500",
     paddingTop: 4,
+  },
+  logo: {
+    paddingHorizontal: 16,
+    alignItems: "center",
   },
 });
 

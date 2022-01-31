@@ -119,6 +119,9 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     color: obTheme.text,
   },
+  categoryContent: {
+    marginTop: 16,
+  },
   btnWrap: {
     flexDirection: "row",
     alignItems: "center",
@@ -138,9 +141,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 32,
     alignSelf: "center",
+    elevation: 3,
   },
   listItemCont: {
-    width: width / 3,
+    width: width / 4,
     marginTop: 15,
     paddingHorizontal: 5,
   },

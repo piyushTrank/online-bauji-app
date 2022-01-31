@@ -1,11 +1,10 @@
 import React from "react";
 import {View, StyleSheet, BackHandler, Text} from "react-native";
 import WebView from "react-native-webview";
-import BlogList from "../components/blog-list/BlogList";
 import Header from "../components/header/Header";
 import {obTheme} from "../components/utils/colors";
 
-const BlogScreen = ({navigation}) => {
+const BlogPostDetailScreen = ({route, navigation}) => {
   const [wvdata, setWvData] = React.useState({
     canGoBack: false,
   });
@@ -39,7 +38,28 @@ const BlogScreen = ({navigation}) => {
         <Header navigation={navigation} />
       </View>
       <View style={styles.scrollContainer}>
-        <BlogList navigation={navigation} />
+        <WebView
+          javaScriptEnabled={true}
+          onLoadProgress={({nativeEvent}) => {
+            console.log("nativeEvent", nativeEvent);
+            setWvData({...wvdata, canGoBack: nativeEvent.canGoBack});
+          }}
+          source={{
+            uri: `https://www.onlinebauji.com/blog/${route.params.blogSlug}?hideLayout=true`,
+          }}
+          style={{flex: 1}}
+          sharedCookiesEnabled={true}
+          useWebKit
+          mixedContentMode="always"
+          onError={syntheticEvent => {
+            const {nativeEvent} = syntheticEvent;
+            console.log("WebView error: ", nativeEvent);
+          }}
+          cacheEnabled={false}
+          thirdPartyCookiesEnabled={true}
+          ref={webview}
+          allowsBackForwardNavigationGestures
+        />
       </View>
     </View>
   );
@@ -65,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BlogScreen;
+export default BlogPostDetailScreen;

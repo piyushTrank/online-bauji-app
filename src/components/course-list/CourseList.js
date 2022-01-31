@@ -16,8 +16,9 @@ import {api_url} from "../utils/apiInfo";
 import {obTheme} from "../utils/colors";
 import {StarSvg} from "../svg/GlobalIcons";
 import {useNavigation} from "@react-navigation/native";
+import CategorySelect from "./category-select";
 
-const post_per_page = 2;
+const post_per_page = 10;
 const width = Dimensions.get("window").width;
 
 const ListItem = props => {
@@ -110,19 +111,22 @@ const ListItem = props => {
   );
 };
 
+const initial_state = {
+  data: null,
+  loadMoreStatus: true,
+  currentPage: 0,
+  isRefreshing: false,
+  isLoading: false,
+  activeCat: 0,
+};
+
 const CourseList = () => {
   const navigation = useNavigation();
 
-  const [courseData, setCourseData] = React.useState({
-    data: null,
-    loadMoreStatus: true,
-    currentPage: 0,
-    isRefreshing: false,
-    isLoading: false,
-  });
+  const [courseData, setCourseData] = React.useState(initial_state);
 
   React.useEffect(() => {
-    if (courseData.data === null) fetchCourses(1);
+    if (courseData.data === null) fetchCourses(1, 0);
 
     return () => {
       setCourseData({
@@ -131,30 +135,49 @@ const CourseList = () => {
         currentPage: 0,
         isRefreshing: false,
         isLoading: false,
+        activeCat: 0,
       });
     };
   }, []);
 
-  const fetchCourses = async pageNum => {
+  const fetchCourses = async (pageNum, catId = 0) => {
     try {
+      // console.log("catId", catId);
       setCourseData({...courseData, isLoading: true});
 
       const res = await axios.get(
-        `${api_url}/custom-products?page=${pageNum}&per_page=${post_per_page}&sort=default`,
+        `${api_url}/custom-products?page=${pageNum}&per_page=${post_per_page}&sort=default${
+          catId !== 0 ? `&category=${catId}` : ""
+        }`,
       );
 
-      //console.log("Course res:", res.data);
+      console.log("Course res:", res.data, courseData.data);
 
-      setCourseData({
-        ...courseData,
-        data:
-          courseData.data === null
-            ? res.data.product
-            : [...courseData.data, ...res.data.product],
-        currentPage: courseData.currentPage + 1,
-        isRefreshing: false,
-        isLoading: false,
-      });
+      if (res.data.product.length > 0) {
+        let selCourseData = res.data.product;
+
+        if (courseData.data !== null && courseData.activeCat === catId) {
+          selCourseData = [...courseData.data, ...res.data.product];
+        }
+
+        setCourseData({
+          ...courseData,
+          data: selCourseData,
+          currentPage: courseData.currentPage + 1,
+          isRefreshing: false,
+          isLoading: false,
+          activeCat: catId,
+          loadMoreStatus: true,
+        });
+      } else {
+        setCourseData({
+          ...courseData,
+          loadMoreStatus: false,
+          isRefreshing: false,
+          isLoading: false,
+          currentPage: 0,
+        });
+      }
     } catch (err) {
       console.log("Blog Err", err);
       //   if (err.response.status === 400) {
@@ -166,23 +189,31 @@ const CourseList = () => {
     }
   };
 
-  const handleRefresh = () => {
-    setCourseData({
-      data: null,
-      loadMoreStatus: true,
-      currentPage: 0,
-      isRefreshing: true,
-    });
-
-    setTimeout(() => {
-      fetchCourses(1);
-    }, 1000);
-  };
-
   const handleNavchange = prodId => {
     console.log("prodId", prodId);
     navigation.navigate("SingleCourseScreen", {prodId});
   };
+
+  const getSelectedCat = selCat => {
+    // console.log("Selcat", selCat);
+    if (selCat !== null && courseData.activeCat !== selCat.value) {
+      console.log("Here", {
+        ...initial_state,
+        loadMoreStatus: true,
+        isLoading: true,
+        activeCat: selCat.value,
+      });
+      setCourseData({
+        ...initial_state,
+        loadMoreStatus: true,
+        isLoading: true,
+        activeCat: selCat.value,
+      });
+      fetchCourses(1, selCat.value);
+    }
+  };
+
+  // console.log("Course Data:", courseData);
 
   return (
     <View style={styles.parentContainer}>
@@ -190,7 +221,8 @@ const CourseList = () => {
         <FlatList
           ListHeaderComponent={
             <View style={styles.categoryHeader}>
-              <Text style={styles.categoryHeaderTxt}>All Courses</Text>
+              <Text style={styles.categoryHeaderTxt}>Courses</Text>
+              <CategorySelect getSelectedCat={getSelectedCat} />
             </View>
           }
           ListFooterComponent={
@@ -205,7 +237,7 @@ const CourseList = () => {
             )
           }
           numColumns={2}
-          data={courseData.data}
+          data={courseData.data !== null ? courseData.data : []}
           renderItem={({item, index}) => (
             <ListItem
               item={{...item, ind: index}}
@@ -214,10 +246,10 @@ const CourseList = () => {
           )}
           showsHorizontalScrollIndicator={false}
           style={styles.sliderContainer}
-          onEndReachedThreshold={0.4}
+          onEndReachedThreshold={0.6}
           onEndReached={() => {
             courseData.loadMoreStatus
-              ? fetchCourses(courseData.currentPage + 1)
+              ? fetchCourses(courseData.currentPage + 1, courseData.activeCat)
               : null;
           }}
           // refreshing={courseData.isRefreshing}
@@ -241,8 +273,6 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 30,
   },
   categoryHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     flex: 1,
   },
   categoryHeaderTxt: {

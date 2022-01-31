@@ -114,7 +114,11 @@ const SingleProductTab = ({singleProductData, navigation, inCart}) => {
           status: true,
         });
       } else {
-        throw Error("Unable to add product in cart");
+        throw Error(
+          !!res.data.message
+            ? res.data.message
+            : "Unable to add product in cart",
+        );
       }
     } catch (error) {
       console.log("Add to Cart Error", error);
@@ -161,11 +165,20 @@ const SingleProductTab = ({singleProductData, navigation, inCart}) => {
             navigation.navigate("Checkout");
           }, 500);
         } else {
-          throw Error("Unable to add product in cart");
+          throw Error(
+            !!res.data.message
+              ? res.data.message
+              : "Unable to add product in cart",
+          );
         }
       }
     } catch (error) {
       console.log("Buy Now Error", error);
+      Toast.show({
+        type: "error",
+        text1: error.message,
+        position: "bottom",
+      });
     }
   };
 
