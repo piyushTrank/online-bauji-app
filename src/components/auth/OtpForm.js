@@ -6,16 +6,47 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
+import Toast from "react-native-toast-message";
+import {useDispatch, useSelector} from "react-redux";
+import {verifyOtp, sendOtp} from "../../store/actions/auth.actions";
+
 import {obTheme} from "../utils/colors";
 
-import {BackHandler} from "react-native";
-
 const OtpForm = props => {
+  const dispatch = useDispatch();
   const [numberVal, onChangeNumber] = React.useState(null);
+
+  const chkOtpStatus = useSelector(state => state.metaData.authOptions);
+
+  React.useEffect(() => {
+    console.log("chkOtpStatus", chkOtpStatus);
+
+    if (chkOtpStatus.isOtpValid !== null) {
+      if (!!chkOtpStatus.isOtpValid) {
+        props.navigation.navigate("UserDetailScreen");
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Incorrect OTP.",
+          position: "bottom",
+        });
+      }
+    }
+  }, [chkOtpStatus]);
 
   const handleSubmit = () => {
     // props.handleScreenChange(1);
+    if (numberVal !== "" && numberVal.length === 4) {
+      dispatch(verifyOtp(numberVal, chkOtpStatus.mobNum, Toast));
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Please enter 4-digit OTP.",
+        position: "bottom",
+      });
+    }
   };
 
   function handleBackButtonClick() {
@@ -33,6 +64,10 @@ const OtpForm = props => {
     };
   }, []);
 
+  const handleResendOtp = () => {
+    dispatch(sendOtp(chkOtpStatus.mobNum, Toast));
+  };
+
   return (
     <SafeAreaView style={styles.parentContainer}>
       <View style={styles.otpForm}>
@@ -42,15 +77,17 @@ const OtpForm = props => {
             style={styles.input}
             onChangeText={onChangeNumber}
             value={numberVal}
-            placeholder="Enter 6-digit OTP"
+            placeholder="Enter 4-digit OTP"
             placeholderTextColor="#ffffff"
             keyboardType="numeric"
-            maxLength={6}
+            maxLength={4}
           />
         </View>
       </View>
-      <Text style={styles.authSwitcher}>Resend OTP</Text>
-      <TouchableOpacity onPress={handleSubmit} activeOpacity={0.9}>
+      <TouchableOpacity onPress={handleResendOtp} activeOpacity={0.5}>
+        <Text style={styles.authSwitcher}>Resend OTP</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleSubmit} activeOpacity={0.5}>
         <View style={styles.btn}>
           <Text style={{color: obTheme.white, fontWeight: "700"}}>SUBMIT</Text>
         </View>

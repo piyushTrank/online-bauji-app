@@ -7,6 +7,7 @@ export const SIGNUP = "SIGNUP";
 export const LOGOUT = "LOGOUT";
 export const SENDOTP = "SENDOTP";
 export const VERIFYOTP = "VERIFYOTP";
+export const RESETOTP = "RESETOTP";
 
 //Meta Data
 export const AUTH_SKIP = "AUTH_SKIP";

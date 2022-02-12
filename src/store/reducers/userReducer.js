@@ -10,9 +10,11 @@ export const userReducer = (state = initialState, action) => {
     case LOGIN:
     case SIGNUP:
       return {
+        ...state,
         ...action.payload,
         lastLoggedIn: Date.now(),
       };
+
     case LOGOUT:
       return initialState;
     default:

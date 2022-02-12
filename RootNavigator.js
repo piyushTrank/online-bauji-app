@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {getCart} from "./src/store/actions/cart.actions";
 import SplashScreenFirst from "./src/components/splash-screens/SplashScreenFirst";
 import StNavigator from "./src/navigators/StNavigator";
-import OtpAuthWrapper from "./src/screens/OtpAuthWrapper";
 
 const Stack = createNativeStackNavigator();
 

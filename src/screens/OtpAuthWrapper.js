@@ -7,7 +7,7 @@ import {obTheme} from "../components/utils/colors";
 const logo = require("../assets/images/global/online-bauji-otp-logo.png");
 // const topImg = require("../assets/images/global/splash-design-1.png");
 
-const OtpAuthWrapper = props => {
+const OtpAuthWrapper = ({navigation}) => {
   const [otpScreen, setOtpScreen] = React.useState(1);
 
   const changeOtpScreen = screenIndex => {
@@ -20,7 +20,7 @@ const OtpAuthWrapper = props => {
       {otpScreen === 1 ? (
         <PhoneOtpForm handleScreenChange={changeOtpScreen} />
       ) : (
-        <OtpForm handleScreenChange={changeOtpScreen} />
+        <OtpForm navigation={navigation} handleScreenChange={changeOtpScreen} />
       )}
     </View>
   );

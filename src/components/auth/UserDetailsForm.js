@@ -13,35 +13,36 @@ import CheckBox from "@react-native-community/checkbox";
 import {FloatingTitleTextInputField} from "../global/FloatingTitleTextInputField";
 import {obTheme} from "../utils/colors";
 import {validateIsEmail} from "../utils/utilFn";
-import {useDispatch} from "react-redux";
-import {changeAuthSkip} from "../../store/actions/metaData.actions";
+import {useDispatch, useSelector} from "react-redux";
 import {userSignUp} from "../../store/actions/auth.actions";
 
-const skipArrow = require("../../assets/images/auth/rightArrow.png");
-
-const SignUpForm = props => {
+const UserDetailsForm = props => {
   const dispatch = useDispatch();
 
+  const authOptions = useSelector(state => state.metaData.authOptions);
+
   const [formVal, setFormVal] = React.useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phone: "",
-    enableOffer: false,
+    fields: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: authOptions.mobNum,
+      enableOffer: false,
+    },
+    isFormValid: false,
   });
 
   function updateMasterState(attrName, value) {
     setFormVal({
       ...formVal,
-      [attrName]: value,
+      fields: {
+        ...formVal.fields,
+        [attrName]: value,
+      },
     });
   }
-
-  const handleChangeAuth = () => {
-    props.handleScreenChange(1);
-  };
 
   const handleSubmit = () => {
     const reqFields = [
@@ -55,7 +56,7 @@ const SignUpForm = props => {
     let chkReqFields = true;
 
     reqFields.forEach(el => {
-      if (formVal[el] === "") {
+      if (formVal.fields[el] === "") {
         Toast.show({
           type: "error",
           text1: "Fields marked(*) cannot be empty.",
@@ -70,32 +71,28 @@ const SignUpForm = props => {
 
     if (!chkReqFields) return;
 
-    if (!validateIsEmail(formVal.email)) {
+    if (!validateIsEmail(formVal.fields.email)) {
       Toast.show({
         type: "error",
         text1: "Please enter valid email address.",
         position: "bottom",
       });
-    } else if (formVal.password === "") {
+    } else if (formVal.fields.password === "") {
       Toast.show({
         type: "error",
         text1: "Email and Password cannot be empty.",
         position: "bottom",
       });
-    } else if (formVal.password !== formVal.confirmPassword) {
+    } else if (formVal.fields.password !== formVal.fields.confirmPassword) {
       Toast.show({
         type: "error",
         text1: "Passwords do not match.",
         position: "bottom",
       });
     } else {
-      console.log("FormVal", formVal);
-      dispatch(userSignUp(formVal, Toast));
+      console.log("FormVal", formVal.fields);
+      dispatch(userSignUp(formVal.fields, Toast));
     }
-  };
-
-  const handleSkip = () => {
-    dispatch(changeAuthSkip(true));
   };
 
   const handleCheckBoxChange = () => {
@@ -114,32 +111,29 @@ const SignUpForm = props => {
             <FloatingTitleTextInputField
               attrName="firstName"
               title="First Name*"
-              value={formVal.firstName}
+              value={formVal.fields.firstName}
               updateMasterState={updateMasterState}
-              otherTextInputProps={{
-                autoCapitalize: "none",
-              }}
+              otherTextInputProps={{}}
             />
           </View>
           <View style={styles.fieldWrap}>
             <FloatingTitleTextInputField
               attrName="lastName"
               title="Last Name"
-              value={formVal.lastName}
+              value={formVal.fields.lastName}
               updateMasterState={updateMasterState}
-              otherTextInputProps={{
-                autoCapitalize: "none",
-              }}
+              otherTextInputProps={{}}
             />
           </View>
           <View style={styles.fieldWrap}>
             <FloatingTitleTextInputField
               attrName="email"
               title="Email*"
-              value={formVal.email}
+              value={formVal.fields.email}
               updateMasterState={updateMasterState}
               otherTextInputProps={{
                 autoCapitalize: "none",
+                keyboardType: "email-address",
               }}
             />
           </View>
@@ -148,9 +142,11 @@ const SignUpForm = props => {
             <FloatingTitleTextInputField
               attrName="phone"
               title="Mobile Number*"
-              value={formVal.phone}
+              value={formVal.fields.phone}
               updateMasterState={updateMasterState}
-              otherTextInputProps={{}}
+              otherTextInputProps={{
+                editable: false,
+              }}
             />
           </View>
 
@@ -158,36 +154,23 @@ const SignUpForm = props => {
             <FloatingTitleTextInputField
               attrName="password"
               title="Password*"
-              value={formVal.password}
+              value={formVal.fields.password}
               updateMasterState={updateMasterState}
-              textInputStyles={
-                {
-                  // here you can add additional TextInput styles
-                  // color: 'green',
-                }
-              }
               otherTextInputProps={{
-                // here you can add other TextInput props of your choice
                 autoCapitalize: "none",
                 secureTextEntry: true,
                 value: formVal.password,
               }}
             />
           </View>
+
           <View style={styles.fieldWrap}>
             <FloatingTitleTextInputField
               attrName="confirmPassword"
               title="Confirm Password*"
-              value={formVal.confirmPassword}
+              value={formVal.fields.confirmPassword}
               updateMasterState={updateMasterState}
-              textInputStyles={
-                {
-                  // here you can add additional TextInput styles
-                  // color: 'green',
-                }
-              }
               otherTextInputProps={{
-                // here you can add other TextInput props of your choice
                 autoCapitalize: "none",
                 secureTextEntry: true,
                 value: formVal.confirmPassword,
@@ -222,26 +205,6 @@ const SignUpForm = props => {
             </View>
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.authOp}>
-        <Text style={{color: obTheme.text}}>Have an Account?</Text>
-        <TouchableWithoutFeedback onPress={handleChangeAuth}>
-          <Text
-            style={{
-              color: obTheme.primary,
-              fontWeight: "700",
-              marginTop: 5,
-              fontSize: 16,
-            }}>
-            LOGIN
-          </Text>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={handleSkip}>
-          <View style={styles.skipWrap}>
-            <Text style={styles.skipTxt}>SKIP</Text>
-            <Image source={skipArrow} />
-          </View>
-        </TouchableWithoutFeedback>
       </View>
     </>
   );
@@ -303,4 +266,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpForm;
+export default UserDetailsForm;

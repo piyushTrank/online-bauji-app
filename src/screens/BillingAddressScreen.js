@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import {View, StyleSheet, ScrollView} from "react-native";
 import {useSelector} from "react-redux";
 import CheckoutBillingAdd from "../components/checkout/CheckoutBillingAdd";
 import Header from "../components/header/Header";

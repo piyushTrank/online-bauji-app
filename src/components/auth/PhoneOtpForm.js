@@ -11,11 +11,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import {obTheme} from "../utils/colors";
+import {useDispatch} from "react-redux";
+import {resetOtp, sendOtp} from "../../store/actions/auth.actions";
 
 const PhoneOtpForm = props => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [numberVal, onChangeNumber] = React.useState(null);
+
+  React.useEffect(() => {
+    dispatch(resetOtp());
+  }, []);
 
   const handleSubmit = () => {
     if (numberVal === null || numberVal === "") {
@@ -31,6 +38,7 @@ const PhoneOtpForm = props => {
         position: "bottom",
       });
     } else {
+      dispatch(sendOtp(numberVal, Toast));
       props.handleScreenChange(2);
     }
   };
@@ -56,7 +64,7 @@ const PhoneOtpForm = props => {
             value={numberVal}
             placeholder="0000000000"
             placeholderTextColor="#ffffff"
-            keyboardType="numeric"
+            keyboardType="phone-pad"
             maxLength={10}
           />
         </View>
@@ -66,7 +74,9 @@ const PhoneOtpForm = props => {
       </Text>
       <TouchableOpacity onPress={handleSubmit} activeOpacity={0.9}>
         <View style={styles.btn}>
-          <Text style={{color: obTheme.white, fontWeight: "700"}}>NEXT</Text>
+          <Text style={{color: obTheme.white, fontWeight: "700"}}>
+            SEND OTP
+          </Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>

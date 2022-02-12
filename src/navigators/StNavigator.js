@@ -17,6 +17,7 @@ import CategoryScreen from "../screens/CategoryScreen";
 import PreviewTopicScreen from "../screens/PreviewTopicScreen";
 import AllCategoriesScreen from "../screens/AllCategoriesScreen";
 import BlogPostDetailScreen from "../screens/BlogPostDetailScreen";
+import UserDetailScreen from "../screens/UserDetailScreen";
 
 const StNavigator = ({userInfo}) => {
   const Stack = createNativeStackNavigator();
@@ -42,6 +43,7 @@ const StNavigator = ({userInfo}) => {
       {showAuth ? (
         <>
           <Stack.Screen name="OtpScreen" component={OtpAuthWrapper} />
+          <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} />
           <Stack.Screen name="AuthScreen" component={AuthWrapper} />
         </>
       ) : null}

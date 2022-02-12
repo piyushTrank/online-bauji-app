@@ -1,7 +1,20 @@
-import {AUTH_SKIP, LOGOUT} from "../actions/actiontypes";
+import {
+  AUTH_SKIP,
+  LOGOUT,
+  RESETOTP,
+  SENDOTP,
+  SIGNUP,
+  VERIFYOTP,
+} from "../actions/actiontypes";
 
 const initialState = {
   authSkip: false,
+  authOptions: {
+    authType: null,
+    isOtpValid: null,
+    shouldAllow: false,
+    mobNum: null,
+  },
 };
 
 export const metaDataReducer = (state = initialState, action) => {
@@ -10,6 +23,42 @@ export const metaDataReducer = (state = initialState, action) => {
       return {
         ...state,
         authSkip: action.payload,
+      };
+
+    case SENDOTP:
+      return {
+        ...state,
+        authOptions: {
+          ...state.authOptions,
+          authType: "otp",
+          mobNum: action.payload,
+        },
+      };
+
+    case VERIFYOTP:
+      let dataToMap = {
+        ...state,
+        authOptions: {
+          ...state.authOptions,
+          isOtpValid: action.payload.value,
+        },
+      };
+
+      return {
+        ...state,
+        ...dataToMap,
+      };
+
+    case RESETOTP:
+      return {
+        ...state,
+        authOptions: initialState.authOptions,
+      };
+
+    case SIGNUP:
+      return {
+        ...state,
+        authOptions: initialState.authOptions,
       };
 
     case LOGOUT:

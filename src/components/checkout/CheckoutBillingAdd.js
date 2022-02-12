@@ -210,13 +210,20 @@ const CheckoutBillingAdd = ({userId, validityChk}) => {
             {formVal.fields.company !== "" ? (
               <Text style={styles.addressTxt}>{formVal.fields.company},</Text>
             ) : null}
-            <Text style={styles.addressTxt}>
-              {formVal.fields.address_1} {formVal.fields.address_2}
-            </Text>
-            <Text style={styles.addressTxt}>
-              {formVal.fields.city} {formVal.fields.state},{" "}
-              {formVal.fields.country}
-            </Text>
+            {formVal.fields.address_1 !== "" ||
+            formVal.fields.address_2 !== "" ? (
+              <Text style={styles.addressTxt}>
+                {formVal.fields.address_1} {formVal.fields.address_2}
+              </Text>
+            ) : null}
+            {formVal.fields.city !== "" ||
+            formVal.fields.state !== "" ||
+            formVal.fields.country !== "" ? (
+              <Text style={styles.addressTxt}>
+                {formVal.fields.city} {formVal.fields.state},{" "}
+                {formVal.fields.country}
+              </Text>
+            ) : null}
             <View style={styles.phoneWrap}>
               <Icon
                 type="Octicons"
