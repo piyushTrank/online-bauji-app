@@ -40,4 +40,9 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
         jcenter()
     }
+    configurations.all {
+        resolutionStrategy {
+            force 'com.facebook.react:react-native:0.68.2'
+        }
+    }
 }
