@@ -19,6 +19,7 @@ import RootNavigator from "./RootNavigator";
 import {PersistGate} from "redux-persist/lib/integration/react";
 import {persistor, store} from "./src/store";
 import {Provider} from "react-redux";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -32,14 +33,16 @@ const MyTheme = {
 
 function App() {
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
-        <Toast />
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+          <Toast />
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
 
