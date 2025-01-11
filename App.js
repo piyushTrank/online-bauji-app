@@ -20,7 +20,11 @@ import {PersistGate} from "redux-persist/lib/integration/react";
 import {persistor, store} from "./src/store";
 import {Provider} from "react-redux";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
+import { enableScreens } from 'react-native-screens';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {StyleSheet} from"react-native";
 
+enableScreens();
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -33,6 +37,8 @@ const MyTheme = {
 
 function App() {
   return (
+    <SafeAreaProvider>
+    <SafeAreaView style={styles.container}>
     <GestureHandlerRootView>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -43,7 +49,18 @@ function App() {
         </PersistGate>
       </Provider>
     </GestureHandlerRootView>
+    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

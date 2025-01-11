@@ -1,4 +1,4 @@
-export const main_domain = `https://www.onlinebauji.com`;
+export const main_domain = `https://wordbackend.tranktechnologies.com`;
 export const api_url = `${main_domain}/backend/wp-json/wc/v2`;
 export const api_blog_url = `${main_domain}/backend/wp-json/wp/v2`;
 export const product_url = `${main_domain}/backend/product/`;
