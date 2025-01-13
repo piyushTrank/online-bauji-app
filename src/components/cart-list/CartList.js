@@ -22,8 +22,6 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const ListItem = props => {
-  console.log("props", props);
-
   const loadPrice = () => {
     if (props.item.type === "variable") {
       return (
@@ -121,15 +119,11 @@ const CartList = () => {
     setCartPrice(cart.cartPrices);
   }, [cart]);
 
-  //console.log("cartList", cart);
-
   const handleRemoveCart = cartKey => {
-    // console.log("Cart Key", cartKey);
     dispatch(removeCartItem(cartKey));
   };
 
   const handleItemClick = prodId => {
-    console.log("prodId", prodId);
     navigation.navigate("SingleCourseScreen", {prodId});
   };
 

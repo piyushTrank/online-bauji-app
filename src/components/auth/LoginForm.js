@@ -38,8 +38,6 @@ const LoginForm = props => {
   };
 
   const handleSubmit = () => {
-    console.log("Form Val", formVal);
-
     if (!validateIsEmail(formVal.email)) {
       Toast.show({
         type: "error",
@@ -53,7 +51,6 @@ const LoginForm = props => {
         position: "bottom",
       });
     } else {
-      console.log("FormVal", formVal);
       dispatch(userLogin(formVal.email, formVal.password, Toast));
     }
   };

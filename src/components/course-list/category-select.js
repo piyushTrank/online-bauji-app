@@ -17,7 +17,7 @@ const CategorySelect = ({getSelectedCat}) => {
   });
 
   const createSelectData = arr => {
-    if (arr.length > 0) {
+    if (arr?.length > 0) {
       const selectData = arr.map(el => ({
         label: decode(el.name),
         value: el.id,

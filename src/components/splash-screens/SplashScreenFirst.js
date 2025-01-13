@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useTheme} from "@react-navigation/native";
 import {View, StyleSheet, Image} from "react-native";
 

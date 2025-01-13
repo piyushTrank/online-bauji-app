@@ -48,7 +48,7 @@ const CountryPicker = ({wrapStyles, onSelectChange, data}) => {
     const countryCodeParam = !!countryCode ? `?country=${countryCode}` : "";
     const res = await axios.get(`${api_url}/countryCode${countryCodeParam}`);
 
-    console.log("Country picker", res.data);
+    // console.log("Country picker", res.data);
 
     if (!!countryCode) {
       const rnSelectState = createSelectData(

@@ -151,7 +151,7 @@ const CourseList = () => {
         }`,
       );
 
-      console.log("Course res:", res.data, courseData.data);
+      // console.log("Course res:", res.data, courseData.data);
 
       if (res.data.product.length > 0) {
         let selCourseData = res.data.product;

@@ -14,7 +14,6 @@ const BlogPost = ({postSlug}) => {
       mixedContentMode="always"
       onError={syntheticEvent => {
         const {nativeEvent} = syntheticEvent;
-        console.log("WebView error: ", nativeEvent);
       }}
       thirdPartyCookiesEnabled={true}
     />

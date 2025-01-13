@@ -19,8 +19,6 @@ const post_per_page = 10;
 const width = Dimensions.get("window").width;
 
 const ListItem = props => {
-  //   console.log("BlogPost", props.item);
-
   const loadCategory = arr => {
     if (arr.length > 0) {
       if (arr[0].length > 0) {
@@ -113,10 +111,8 @@ const BlogList = ({navigation}) => {
       setBlogPosts({...blogPosts, isLoading: true});
 
       const res = await axios.get(
-        `${api_blog_url}/posts?_embed&page=${pageNum}&per_page=${post_per_page}`,
+        `${api_blog_url}/custom-products?per_page=${pageNum}&page=${post_per_page}&sort=default`,
       );
-
-      console.log("Blog res:", res);
 
       setBlogPosts({
         ...blogPosts,
@@ -127,7 +123,6 @@ const BlogList = ({navigation}) => {
         isLoading: false,
       });
     } catch (err) {
-      console.log("Blog Err", err);
       if (err.response.status === 400) {
         setBlogPosts({
           ...blogPosts,
@@ -138,7 +133,6 @@ const BlogList = ({navigation}) => {
   };
 
   const handleNavchange = blogSlug => {
-    console.log("prodId", blogSlug);
     navigation.navigate("BlogPostDetailScreen", {blogSlug});
   };
 

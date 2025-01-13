@@ -41,14 +41,14 @@ const CategoryList = ({navigation}) => {
 
   const handleNavchange = (catId, parentId, catName) => {
     const data = {catId, parentId, catName};
-    console.log("data", data);
+    // console.log("data", data);
 
     navigation.navigate("CategoryScreen", {data});
   };
 
   const renderCategories = arr => {
     const parentCatArr = arr.filter(el => el.parent === 0);
-    console.log("prodId", parentCatArr.length);
+    // console.log("prodId", parentCatArr.length);
 
     arr.forEach(el => {
       if (el.parent !== 0) {

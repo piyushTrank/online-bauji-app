@@ -1,5 +1,4 @@
 import React from "react";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import OtpAuthWrapper from "../screens/OtpAuthWrapper";
 import AuthWrapper from "../screens/AuthWrapper";
 import {useSelector} from "react-redux";
@@ -18,9 +17,11 @@ import PreviewTopicScreen from "../screens/PreviewTopicScreen";
 import AllCategoriesScreen from "../screens/AllCategoriesScreen";
 import BlogPostDetailScreen from "../screens/BlogPostDetailScreen";
 import UserDetailScreen from "../screens/UserDetailScreen";
+import {createStackNavigator} from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 const StNavigator = ({userInfo}) => {
-  const Stack = createNativeStackNavigator();
   const [showAuth, setShowAuth] = React.useState(true);
 
   const currentUser = useSelector(state => state.user.userInfo);
@@ -38,32 +39,141 @@ const StNavigator = ({userInfo}) => {
 
   return (
     <Stack.Navigator
-      initialRouteName={userInfo === null ? "otpscreen" : "Drawer Navigation"}
+      initialRouteName={userInfo === null ? "AuthScreen" : "DrawerNavigation"}
+      // initialRouteName={"AuthScreen"}
       screenOptions={{headerShown: false}}>
-      {showAuth ? (
+      {showAuth && (
         <>
-          <Stack.Screen name="OtpScreen" component={OtpAuthWrapper} />
-          <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} />
-          <Stack.Screen name="AuthScreen" component={AuthWrapper} />
+          <Stack.Screen
+            name="OtpScreen"
+            options={{
+              headerShown: false,
+              presentation: "card", // Check this value
+            }}
+            component={OtpAuthWrapper}
+          />
+          <Stack.Screen
+            name="UserDetailScreen"
+            options={{
+              headerShown: false,
+              presentation: "card", // Check this value
+            }}
+            component={UserDetailScreen}
+          />
+          <Stack.Screen
+            name="AuthScreen"
+            options={{
+              headerShown: false,
+              presentation: "card", // Check this value
+            }}
+            component={AuthWrapper}
+          />
         </>
-      ) : null}
-      <Stack.Screen name="Drawer Navigation" component={DrNavigator} />
-      {/* <Stack.Screen name="Go to Home Screen" component={TbNavigator} /> */}
-      <Stack.Screen name="CoursesScreen" component={CoursesScreen} />
-      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+      )}
+      {/* <Stack.Screen
+        name="DrawerNavigation"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={DrNavigator}
+      /> */}
+      <Stack.Screen
+        name="CoursesScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={CoursesScreen}
+      />
+      <Stack.Screen
+        name="CategoryScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={CategoryScreen}
+      />
       <Stack.Screen
         name="AllCategoriesScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
         component={AllCategoriesScreen}
       />
-      <Stack.Screen name="SingleCourseScreen" component={SingleCourseScreen} />
-      <Stack.Screen name="PreviewTopicScreen" component={PreviewTopicScreen} />
-      <Stack.Screen name="SearchScreen" component={SearchCourseScreen} />
-      <Stack.Screen name="My Courses" component={MyCoursesScreen} />
-      <Stack.Screen name="Cart" component={CartScreen} />
-      <Stack.Screen name="Checkout" component={CheckoutScreen} />
-      <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} />
-      <Stack.Screen name="MyProfileScreen" component={MyProfileScreen} />
-      <Stack.Screen name="CourseDetailScreen" component={CourseDetailScreen} />
+      <Stack.Screen
+        name="SingleCourseScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={SingleCourseScreen}
+      />
+      <Stack.Screen
+        name="PreviewTopicScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={PreviewTopicScreen}
+      />
+      <Stack.Screen
+        name="SearchScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={SearchCourseScreen}
+      />
+      <Stack.Screen
+        name="My Courses"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={MyCoursesScreen}
+      />
+      <Stack.Screen
+        name="Cart"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={CartScreen}
+      />
+      <Stack.Screen
+        name="Checkout"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={CheckoutScreen}
+      />
+      <Stack.Screen
+        name="OrderSuccessScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={OrderSuccessScreen}
+      />
+      <Stack.Screen
+        name="MyProfileScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={MyProfileScreen}
+      />
+      <Stack.Screen
+        name="CourseDetailScreen"
+        options={{
+          headerShown: false,
+          presentation: "card", // Check this value
+        }}
+        component={CourseDetailScreen}
+      />
       <Stack.Screen
         name="BlogPostDetailScreen"
         component={BlogPostDetailScreen}

@@ -66,8 +66,6 @@ const SignUpForm = props => {
       }
     });
 
-    console.log("chkReqFields", chkReqFields);
-
     if (!chkReqFields) return;
 
     if (!validateIsEmail(formVal.email)) {
@@ -89,7 +87,6 @@ const SignUpForm = props => {
         position: "bottom",
       });
     } else {
-      console.log("FormVal", formVal);
       dispatch(userSignUp(formVal, Toast));
     }
   };

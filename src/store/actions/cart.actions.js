@@ -55,13 +55,13 @@ export const addCartItem = (prodId, toast) => async (dispatch, getState) => {
 export const getCart = () => async (dispatch, getState) => {
   try {
     console.log("Get state", getState());
-    const userId = getState().user.userInfo.id;
+    const userId = getState()?.user?.userInfo?.id;
     const res = await axios.get(`${api_url}/cart?user_id=${userId}`, {
       withCredentials: true,
       //headers: { "Access-Control-Allow-Credentials": true },
     });
 
-    console.log("Get Cart", res.data);
+    // console.log("Get Cart", res.data);
 
     dispatch({
       type: GET_CART,

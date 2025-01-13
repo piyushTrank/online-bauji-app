@@ -116,7 +116,7 @@ const FeaturedCourses = ({navigation}) => {
       `${api_url}/custom-products?page=1&per_page=10&sort=default&featured=true`,
     );
 
-    console.log("Featured Course res", res);
+    // console.log("Featured Course res", res);
 
     setFeaturedData(res.data.product);
   };

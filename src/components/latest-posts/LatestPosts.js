@@ -87,7 +87,9 @@ const LatestPosts = ({navigation}) => {
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get(`${api_blog_url}/posts?_embed&page=1&per_page=5`);
+    let res = await axios.get(
+      `${api_blog_url}/custom-products?per_page=1&page=1&sort=default`,
+    );
 
     console.log("Latest Posts res", res);
 
@@ -95,9 +97,10 @@ const LatestPosts = ({navigation}) => {
   };
 
   const handleNavchange = blogSlug => {
-    console.log("blogSlug", blogSlug);
     navigation.navigate("BlogPostDetailScreen", {blogSlug});
   };
+
+  return <></>;
 
   return (
     <View style={styles.parentContainer}>
@@ -173,6 +176,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     color: obTheme.text,
   },
+  listItemPriceWrap: {},
   listItemImg: {
     borderTopStartRadius: 15,
   },

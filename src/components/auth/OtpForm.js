@@ -21,8 +21,6 @@ const OtpForm = props => {
   const chkOtpStatus = useSelector(state => state.metaData.authOptions);
 
   React.useEffect(() => {
-    console.log("chkOtpStatus", chkOtpStatus);
-
     if (chkOtpStatus.isOtpValid !== null) {
       if (!!chkOtpStatus.isOtpValid) {
         props.navigation.navigate("UserDetailScreen");
