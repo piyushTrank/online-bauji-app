@@ -125,8 +125,6 @@ const SimilarCourses = ({onChangeProduct, courseIds, navigation}) => {
     }
   };
 
-  const handleCategoryNav = () => {};
-
   const handleNavchange = prodId => {
     console.log("prodId", prodId);
     //navigation.navigate("SingleCourseScreen", {prodId});

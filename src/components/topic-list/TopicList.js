@@ -10,7 +10,6 @@ const TopicList = ({topicList, isPreview, navigation}) => {
   const dispatch = useDispatch();
 
   const handlePreview = topicInfo => {
-    console.log("topicInfo", topicInfo);
     dispatch(changeTopic(topicInfo));
     navigation.navigate("PreviewTopicScreen");
   };

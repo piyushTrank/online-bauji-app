@@ -40,7 +40,7 @@ const WebVideoPlayer = ({videoUrl}) => {
         allowsFullscreenVideo={true}
         allowsInlineMediaPlayback={true}
         source={{
-          uri: `https://www.onlinebauji.com/app-video?url=${videoUrl}`,
+          uri: `https://onilnebauji.tranktechnologies.com/app-video?url=${videoUrl}`,
         }}
         style={{flex: 1}}
         sharedCookiesEnabled={true}

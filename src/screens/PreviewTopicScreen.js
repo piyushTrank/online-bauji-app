@@ -28,6 +28,7 @@ const PreviewTopicScreen = ({navigation}) => {
         ...coursesData,
         activeTopic: topic,
       });
+      console.log("coursesData", coursesData);
     } else {
       setCoursesData({
         ...coursesData,
