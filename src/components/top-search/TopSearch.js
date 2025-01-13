@@ -135,7 +135,7 @@ const TopSearch = ({navigation}) => {
         <Text style={styles.categoryHeaderTxt}>TOP SEARCHES</Text>
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate("Drawer Navigation", {screen: "Courses"})
+            navigation.navigate("DrawerNavigation", {screen: "Courses"})
           }>
           <View style={styles.btnWrap}>
             <Text style={styles.btnTxt}>SEE ALL</Text>

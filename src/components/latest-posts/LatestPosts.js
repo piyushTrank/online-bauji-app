@@ -108,7 +108,7 @@ const LatestPosts = ({navigation}) => {
         <Text style={styles.categoryHeaderTxt}>Recent Posts</Text>
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate("Drawer Navigation", {screen: "Blog"})
+            navigation.navigate("DrawerNavigation", {screen: "Blog"})
           }>
           <View style={styles.btnWrap}>
             <Text style={styles.btnTxt}>SEE ALL</Text>

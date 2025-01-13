@@ -140,7 +140,7 @@ const SimilarCourses = ({onChangeProduct, courseIds, navigation}) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() =>
-            navigation.navigate("Drawer Navigation", {screen: "Courses"})
+            navigation.navigate("DrawerNavigation", {screen: "Courses"})
           }>
           <View style={styles.btnWrap}>
             <Text style={styles.btnTxt}>SEE ALL</Text>
