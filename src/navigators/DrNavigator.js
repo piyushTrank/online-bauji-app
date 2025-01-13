@@ -1,12 +1,15 @@
 import React from "react";
-// import {
-//   createDrawerNavigator,
-//   DrawerContentScrollView,
-//   DrawerItemList,
-//   DrawerItem,
-// } from "@react-navigation/drawer";
+
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from "@react-navigation/drawer";
 import MyProfileScreen from "../screens/MyProfileScreen";
 import BlogScreen from "../screens/BlogScreen";
+// import {TbNavigator} from "./TbNavigator";
+// import StNavigator from "./StNavigator";
 import {useDispatch, useSelector} from "react-redux";
 import {userLogout} from "../store/actions/auth.actions";
 import HomeScreen from "../screens/HomeScreen";
@@ -23,8 +26,8 @@ import TncScreen from "../screens/TncScreen";
 import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen";
 import MyCoursesScreen from "../screens/MyCourses";
 
-const DEFAULT_USER = require("../assets/images/global/default_user.png");
-const HEADER_LOGO = require("../assets/images/home/dark-logo.png");
+const defaultUser = require("../assets/images/global/default_user.png");
+const headerLogo = require("../assets/images/home/dark-logo.png");
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -34,7 +37,7 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <View style={styles.logo}>
         <Image
-          source={HEADER_LOGO}
+          source={headerLogo}
           style={styles.logoImg}
           resizeMode={"contain"}
           width={150}
@@ -57,7 +60,7 @@ function CustomDrawerContent(props) {
                       : props.currentUser.avatar_url,
                     priority: FastImage.priority.normal,
                   }
-                : DEFAULT_USER
+                : defaultUser
             }
             resizeMode={FastImage.resizeMode.cover}
           />
@@ -107,43 +110,42 @@ function CustomDrawerContent(props) {
   );
 }
 
-// const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 const DrNavigator = () => {
   const currentUser = useSelector(state => state.user.userInfo);
-  return <></>;
 
-  // return (
-  //   <Drawer.Navigator
-  //     screenOptions={{headerShown: false}}
-  //     drawerContent={props => (
-  //       <CustomDrawerContent {...props} currentUser={currentUser} />
-  //     )}>
-  //     <Drawer.Screen name="Home" component={HomeScreen} />
-  //     <Drawer.Screen name="Courses" component={CoursesScreen} />
-  //     {currentUser !== null ? (
-  //       <Drawer.Screen name="My Courses" component={MyCoursesScreen} />
-  //     ) : null}
-  //     <Drawer.Screen name="About Us" component={AboutUsScreen} />
-  //     <Drawer.Screen name="Blog" component={BlogScreen} />
-  //     {currentUser !== null ? (
-  //       <>
-  //         <Drawer.Screen
-  //           name="Billing Address"
-  //           component={BillingAddressScreen}
-  //         />
-  //         <Drawer.Screen
-  //           name="Change Password"
-  //           component={ChangePasswordScreen}
-  //         />
-  //         {/* <Drawer.Screen name="Order Success" component={OrderSuccessScreen} /> */}
-  //       </>
-  //     ) : null}
-  //     <Drawer.Screen name="Terms & Conditions" component={TncScreen} />
-  //     <Drawer.Screen name="Privacy Policy" component={PrivacyPolicyScreen} />
-  //     {/* <Drawer.Screen name="Courses" component={StNavigator} /> */}
-  //   </Drawer.Navigator>
-  // );
+  return (
+    <Drawer.Navigator
+      screenOptions={{headerShown: false}}
+      drawerContent={props => (
+        <CustomDrawerContent {...props} currentUser={currentUser} />
+      )}>
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Courses" component={CoursesScreen} />
+      {currentUser !== null ? (
+        <Drawer.Screen name="My Courses" component={MyCoursesScreen} />
+      ) : null}
+      <Drawer.Screen name="About Us" component={AboutUsScreen} />
+      <Drawer.Screen name="Blog" component={BlogScreen} />
+      {currentUser !== null ? (
+        <>
+          <Drawer.Screen
+            name="Billing Address"
+            component={BillingAddressScreen}
+          />
+          <Drawer.Screen
+            name="Change Password"
+            component={ChangePasswordScreen}
+          />
+          {/* <Drawer.Screen name="Order Success" component={OrderSuccessScreen} /> */}
+        </>
+      ) : null}
+      <Drawer.Screen name="Terms & Conditions" component={TncScreen} />
+      <Drawer.Screen name="Privacy Policy" component={PrivacyPolicyScreen} />
+      {/* <Drawer.Screen name="Courses" component={StNavigator} /> */}
+    </Drawer.Navigator>
+  );
 };
 
 const styles = StyleSheet.create({

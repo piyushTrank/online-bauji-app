@@ -70,14 +70,14 @@ const StNavigator = ({userInfo}) => {
           />
         </>
       )}
-      {/* <Stack.Screen
+      <Stack.Screen
         name="DrawerNavigation"
         options={{
           headerShown: false,
           presentation: "card", // Check this value
         }}
         component={DrNavigator}
-      /> */}
+      />
       <Stack.Screen
         name="CoursesScreen"
         options={{
