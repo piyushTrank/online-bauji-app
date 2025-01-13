@@ -267,7 +267,7 @@ export const resetOtp = () => ({
 export const userLogout = navigation => {
   persistor.purge();
   setTimeout(() => {
-    navigation.push("OtpScreen");
+    navigation.push("AuthScreen");
   }, 500);
   return {
     type: LOGOUT,
