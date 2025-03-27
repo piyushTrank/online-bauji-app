@@ -70,9 +70,7 @@ const HomeSlider = ({navigation}) => {
 
   const fetchData = async () => {
     const res = await axios(`${api_url}/layout`);
-
-    console.log("Slider res", res);
-
+    console.log('res?.data', res?.data)
     setSliderData(res.data.banner);
   };
 

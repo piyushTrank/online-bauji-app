@@ -1,4 +1,4 @@
-export const main_domain = "https://wordbackend.tranktechnologies.com";
+export const main_domain = "https://tradinggurukul.com/trading_backend";
 export const api_url = `${main_domain}/wp-json/wc/v2`;
 export const api_blog_url = `${main_domain}/wp-json/wp/v2`;
 export const product_url = `${main_domain}/product/`;

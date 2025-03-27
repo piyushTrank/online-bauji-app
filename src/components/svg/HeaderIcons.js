@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Image } from "react-native";
 import {View} from "react-native";
 import Svg, {Path} from "react-native-svg";
 
@@ -49,6 +50,7 @@ export const BackSvg = props => (
     </Svg>
   </View>
 );
+
 
 export const HeaderCartSvg = props => (
   <View>

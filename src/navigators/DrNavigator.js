@@ -27,7 +27,7 @@ import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen";
 import MyCoursesScreen from "../screens/MyCourses";
 
 const defaultUser = require("../assets/images/global/default_user.png");
-const headerLogo = require("../assets/images/home/dark-logo.png");
+const headerLogo = require("../assets/images/home/trading_black.png");
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();

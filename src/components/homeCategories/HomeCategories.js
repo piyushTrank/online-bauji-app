@@ -37,6 +37,7 @@ const ListItem = props => {
           <View style={styles.listItemImg}>
             {props.item.image !== null ? (
               <FastImage
+                tintColor='red'
                 style={{width: 32, height: 32}}
                 source={{
                   uri: props.item.image.src,
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
     color: obTheme.text,
   },
   listItemImg: {
-    backgroundColor: "#eee",
+    backgroundColor: "#c5c6d0",
     width: 64,
     height: 64,
     justifyContent: "center",

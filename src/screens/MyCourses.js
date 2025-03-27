@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   playIcon: {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: obTheme.white,
     width: 32,
     height: 32,
     borderRadius: 16,
@@ -217,13 +217,13 @@ const styles = StyleSheet.create({
   },
   listItemCont: {
     flex: 1,
-    marginTop: 24,
+    marginTop: 10,
     borderRadius: 15,
-    backgroundColor: obTheme.white,
+    backgroundColor: obTheme.blue,
     elevation: 5,
   },
   listItemTxt: {
-    color: obTheme.text,
+    color: obTheme.textwhite,
     flexShrink: 1,
     fontSize: 12,
     lineHeight: 15,
@@ -231,13 +231,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   listItemAuthor: {
-    color: obTheme.text,
+    color: obTheme.textwhite,
     fontSize: 10,
     textTransform: "uppercase",
     marginBottom: 8,
   },
   courseDt: {
-    color: obTheme.text,
+    color: obTheme.textwhite,
     fontSize: 10,
     textTransform: "uppercase",
     marginBottom: 4,

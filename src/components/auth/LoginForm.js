@@ -64,7 +64,6 @@ const LoginForm = props => {
       <View style={styles.parentContainer}>
         <Text style={styles.authHead}>LOGIN</Text>
         <View style={styles.loginForm}>
-          <View style={styles.fieldWrap}>
             <FloatingTitleTextInputField
               attrName="email"
               title="Email"
@@ -72,29 +71,21 @@ const LoginForm = props => {
               updateMasterState={updateMasterState}
               otherTextInputProps={{
                 autoCapitalize: "none",
+                value: formVal.email,
               }}
             />
-          </View>
-          <View style={styles.fieldWrap}>
+          
             <FloatingTitleTextInputField
               attrName="password"
               title="Password"
               value={formVal.password}
               updateMasterState={updateMasterState}
-              textInputStyles={
-                {
-                  // here you can add additional TextInput styles
-                  // color: 'green',
-                }
-              }
               otherTextInputProps={{
-                // here you can add other TextInput props of your choice
                 autoCapitalize: "none",
                 secureTextEntry: true,
                 value: formVal.password,
               }}
             />
-          </View>
 
           <Text style={{color: obTheme.primary, marginTop: 5}}>
             Forgot Password

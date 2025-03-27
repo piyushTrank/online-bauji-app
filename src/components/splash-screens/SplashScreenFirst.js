@@ -1,48 +1,24 @@
-import React, {useEffect} from "react";
-import {useTheme} from "@react-navigation/native";
-import {View, StyleSheet, Image} from "react-native";
+import React from "react";
+import { SafeAreaView, Image, Dimensions } from "react-native";
 
-const logo = require("../../assets/images/global/online-bauji-logo.png");
-const splashDesign1 = require("../../assets/images/global/splash-design-1.png");
-const splashDesign2 = require("../../assets/images/global/splash-design-2.png");
-
-const SplashScreenFirst = () => {
-  const {colors} = useTheme();
-
+const {height, width} = Dimensions.get("window");
+const SplashScreen = () => {
   return (
-    <View style={styles.parentContainer}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
       <Image
-        fadeDuration={300}
-        source={splashDesign1}
-        style={styles.splashDesignTop}
+        source={require("../../assets/images/global/splashtrading.png")}
+        style={{
+          flex: 1,
+          height,
+          width
+        }}
       />
-      <Image fadeDuration={600} source={logo} />
-      <Image
-        fadeDuration={300}
-        source={splashDesign2}
-        style={styles.splashDesignBottom}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  parentContainer: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#352C65",
-    justifyContent: "center",
-  },
-  splashDesignTop: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-  },
-  splashDesignBottom: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-  },
-});
-
-export default SplashScreenFirst;
+export default SplashScreen;
