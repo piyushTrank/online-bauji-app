@@ -56,3 +56,4 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+config.bat

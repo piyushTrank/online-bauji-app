@@ -1,4 +1,4 @@
-package com.onlinebauji;
+package com.tradinggurukul;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

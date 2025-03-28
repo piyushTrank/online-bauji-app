@@ -6,7 +6,7 @@ const BlogPost = ({postSlug}) => {
     <WebView
       javaScriptEnabled={true}
       source={{
-        uri: `https://www.onlinebauji.com/blog/${postSlug}`,
+        uri: `https://www.tradinggurukul.com/blog/${postSlug}`,
       }}
       style={{flex: 1}}
       sharedCookiesEnabled={true}

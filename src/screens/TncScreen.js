@@ -14,7 +14,7 @@ const TncScreen = ({navigation}) => {
         <WebView
           javaScriptEnabled={true}
           source={{
-            uri: `https://www.onlinebauji.com/terms-and-conditions?hideLayout=true`,
+            uri: `https://www.tradinggurukul.com/terms-and-conditions?hideLayout=true`,
           }}
           style={{flex: 1}}
           sharedCookiesEnabled={true}

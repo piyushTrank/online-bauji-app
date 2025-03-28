@@ -14,7 +14,7 @@ const AboutUsScreen = ({navigation}) => {
         <WebView
           javaScriptEnabled={true}
           source={{
-            uri: `https://www.onlinebauji.com/about-us?hideLayout=true`,
+            uri: `https://www.tradinggurukul.com/about-us?hideLayout=true`,
           }}
           style={{flex: 1}}
           sharedCookiesEnabled={true}

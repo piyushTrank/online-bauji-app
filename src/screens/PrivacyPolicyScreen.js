@@ -14,7 +14,7 @@ const PrivacyPolicyScreen = ({navigation}) => {
         <WebView
           javaScriptEnabled={true}
           source={{
-            uri: `https://www.onlinebauji.com/privacy-policy?hideLayout=true`,
+            uri: `https://www.tradinggurukul.com/privacy-policy?hideLayout=true`,
           }}
           style={{flex: 1}}
           sharedCookiesEnabled={true}

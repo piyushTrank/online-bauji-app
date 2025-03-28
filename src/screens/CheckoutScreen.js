@@ -98,7 +98,7 @@ const CheckoutScreen = ({navigation}) => {
     let options = {
       description: "Payment for Online Bauji",
       image:
-        "https://www.onlinebauji.com/backend/wp-content/uploads/2022/01/logo.png",
+        "https://www.tradinggurukul.com/backend/wp-content/uploads/2022/01/logo.png",
       currency: "INR",
       amount: orderAmt.toString(),
       // order_id: orderData.id,

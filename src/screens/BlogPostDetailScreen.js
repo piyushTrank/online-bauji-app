@@ -45,7 +45,7 @@ const BlogPostDetailScreen = ({route, navigation}) => {
             setWvData({...wvdata, canGoBack: nativeEvent.canGoBack});
           }}
           source={{
-            uri: `https://www.onlinebauji.com/blog/${route.params.blogSlug}?hideLayout=true`,
+            uri: `https://www.tradinggurukul.com/blog/${route.params.blogSlug}?hideLayout=true`,
           }}
           style={{flex: 1}}
           sharedCookiesEnabled={true}
